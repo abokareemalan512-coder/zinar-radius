@@ -1,0 +1,31 @@
+# ═══════════════════════════════════════════
+#  Cloudflare Named Tunnel Config for zinar.net.com
+#  🔐 زنار — RADIUS User Management
+# ═══════════════════════════════════════════
+#
+#  How to use:
+#  1. Install cloudflared: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/
+#  2. Login:   cloudflared tunnel login
+#  3. Create:  cloudflared tunnel create zinar
+#  4. Copy the tunnel ID and paste it below
+#  5. Add DNS: cloudflared tunnel route dns zinar zinar.net.com
+#  6. Run:     cloudflared tunnel --config cloudflared-zinar.yml run zinar
+#
+#  In Cloudflare Dashboard:
+#  - Go to DNS → Add CNAME record:
+#    Name: zinar.net.com (or @ if apex)
+#    Target: <TUNNEL_ID>.cfargotunnel.com
+#    Proxy: Proxied (orange cloud)
+# ═══════════════════════════════════════════
+
+tunnel: <YOUR_TUNNEL_ID_HERE>
+credentials-file: /root/.cloudflared/<YOUR_TUNNEL_ID_HERE>.json
+
+protocol: http2
+
+ingress:
+  - hostname: zinar.net.com
+    service: http://localhost:1892
+    originRequest:
+      noTLSVerify: true
+  - service: http_status:404

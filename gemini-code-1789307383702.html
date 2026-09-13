@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>زنار RADIUS — لوحة التحكم</title>
+    <!-- Bootstrap 5 RTL & Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
+        .navbar-custom { background-color: #1e293b; border-bottom: 1px solid #334155; }
+        .card-custom { background-color: #1e293b; border: 1px solid #334155; border-radius: 12px; }
+        .dropdown-menu-dark { background-color: #1e293b; border-color: #334155; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar العلوي الحقيقي -->
+    <nav class="navbar navbar-expand navbar-custom px-4 py-3">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white fw-bold d-flex align-items-center gap-2" href="#">
+                <i class="bi bi-shield-lock-fill text-primary fs-3"></i>
+                <span>زنار RADIUS</span>
+            </a>
+            
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <!-- قائمة المستخدم الحقيقية -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center gap-2" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle fs-5 text-primary"></i>
+                        <span>{{ session.get('admin_username', 'admin') }}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow" aria-labelledby="userMenu">
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">
+                                <i class="bi bi-gear-fill text-warning"></i>
+                                <span>تغيير اسم المستخدم وكلمة المرور</span>
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider border-secondary"></li>
+                        <li>
+                            <a class="dropdown-item text-danger d-flex align-items-center gap-2" href="{{ url_for('logout') }}">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>تسجيل الخروج</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- محتوى لوحة التحكم -->
+    <div class="container py-4">
+        <!-- التنبيهات الرسائل -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-لبناء منصة **زنار RADIUS** بشكل كامل، حقيقي، ومستقر 100%، وتفادي مشاكل الأيقونات "الوهمية" واختفاء البيانات، يتعين معالجة البنية التحتية للمشروع بالكامل على **GitHub** و **Render**.
+
+التشخيص النهائي لسبب ظهور الواجهات بطريقة غير تفاعلية يرجع إلى عدم وجود رابط حقيقي بين زر التعديل والمسار في السيرفر (`Back-End Route`)، إضافةً إلى استخدام مكتبات Bootstrap دون تضمين مكتبة أيقونات FontAwesome/Bootstrap Icons المباشرة.
+
+إليك التطبيق المكتمل للمشروع المقسم إلى **3 ملفات أساسية جاهزة للنسخ مباشرة للرفع على GitHub**:
+
+---
+
+### 1. ملف المسارات والمحرك (`app.py`)
+يتضمن هذا الملف كافة المسارات الحقيقية (`API Routes`) لعمليات الحساب، وتغيير البيانات، والربط الدائم بقاعدة البيانات لمنع ضياع البيانات:
+
+```python
+"""
+════════════════════════════════════════════════════════════
+  🔐 منصة زنار RADIUS — المحرك الرئيسي المستقر v2
+════════════════════════════════════════════════════════════
+"""
+import os
+from datetime import datetime
+from functools import wraps
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+from dotenv import load_dotenv
+
+load_dotenv()
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = os.environ.get('ZINAR_SECRET_KEY', 'zinar-radius-production-key-2026')
+
+# 1. إعداد قاعدة البيانات لمنع مسح البيانات تلقائياً على Render
+db_url = os.environ.get('DATABASE_URL', 'sqlite:///' + os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instance', 'zinar.db'))
+if db_url and db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+os.makedirs(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instance'), exist_ok=True)
+db = SQLAlchemy(app)
+
+# 2. نماذج قاعدة البيانات الحقيقية
+class Admin(db.Model):
+    __tablename__ = 'admins'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), nullable=False, unique=True)
+    password_hash = db.Column(db.String(255), nullable=False)
+    full_name = db.Column(db.String(200), default='مدير النظام')
+
+    def set_password(self, raw_password):
+        self.password_hash = generate_password_hash(raw_password)
+
+    def check_password(self, raw_password):
+        return check_password_hash(self.password_hash, raw_password)
+
+class RadUser(db.Model):
+    __tablename__ = 'rad_users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), nullable=False, unique=True)
+    password = db.Column(db.String(255), nullable=False)
+    is_active = db.Column(db.Boolean, default=True)
+
+class NASDevice(db.Model):
+    __tablename__ = 'nas_devices'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    ip_address = db.Column(db.String(45), nullable=False, unique=True)
+    shared_secret = db.Column(db.String(100), nullable=False)
+
+def login_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if 'admin_id' not in session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated
+
+# 3. المسارات الوظيفية الحقيقية
+@app.route('/')
+def index():
+    if 'admin_id' in session:
+        return redirect(url_for('dashboard'))
+    return redirect(url_for('login'))
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '').strip()
+        admin = Admin.query.filter_by(username=username).first()
+        if admin and admin.check_password(password):
+            session['admin_id'] = admin.id
+            session['admin_username'] = admin.username
+            return redirect(url_for('dashboard'))
+        flash('اسم المستخدم أو كلمة المرور غير صحيحة', 'danger')
+    return render_template('login.html')
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    total_users = RadUser.query.count()
+    total_nas = NASDevice.query.count()
+    admin = Admin.query.get(session['admin_id'])
+    return render_template('dashboard.html', total_users=total_users, total_nas=total_nas, admin=admin)
+
+# API حقيقي لتغيير اسم المستخدم وكلمة المرور من الواجهة مباشرة
+@app.route('/admin/update-profile', methods=['POST'])
+@login_required
+def update_profile():
+    admin = Admin.query.get(session['admin_id'])
+    data = request.get_json() if request.is_json else request.form
+
+    new_username = data.get('username', '').strip()
+    new_password = data.get('password', '').strip()
+
+    if new_username:
+        existing = Admin.query.filter_by(username=new_username).first()
+        if existing and existing.id != admin.id:
+            return jsonify({'success': False, 'message': 'اسم المستخدم هذا مستخدم بالفعل'}), 400
+        admin.username = new_username
+        session['admin_username'] = new_username
+
+    if new_password:
+        admin.set_password(new_password)
+
+    db.session.commit()
+    return jsonify({'success': True, 'message': 'تم تحديث البيانات بنجاح!'})
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+@app.before_request
+def init_db():
+    if not hasattr(app, 'db_initialized'):
+        db.create_all()
+        app.db_initialized = True
+        if not Admin.query.filter_by(username='admin').first():
+            admin = Admin(username='admin', full_name='مدير النظام')
+            admin.set_password('admin')
+            db.session.add(admin)
+            db.session.commit()
+
+if __name__ == '__main__':
+    port = int(os.environ.get('ZINAR_PORT', 1892))
+    app.run(host='0.0.0.0', port=port, debug=False)

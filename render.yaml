@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: zinar-radius
+    runtime: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt && python3 extract_files.py
+    startCommand: gunicorn -w 2 -b 0.0.0.0:$PORT wsgi:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+      - key: ZINAR_SECRET_KEY
+        generateValue: true
+      - key: FLASK_ENV
+        value: production
+      - key: ZINAR_PREFIX
+        value: ""

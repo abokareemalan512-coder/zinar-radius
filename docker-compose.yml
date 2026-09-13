@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  zinar:
+    build: .
+    container_name: zinar-radius
+    ports:
+      - "1892:1892"
+    volumes:
+      - zinar_data:/app/instance
+    environment:
+      - ZINAR_PORT=1892
+      - ZINAR_HOST=0.0.0.0
+      - ZINAR_PREFIX=
+      - ZINAR_DEBUG=0
+      - ZINAR_TUNNEL=1
+      - ZINAR_SECRET_KEY=change-this-to-a-secure-random-string
+    restart: unless-stopped
+
+volumes:
+  zinar_data:
+    driver: local
