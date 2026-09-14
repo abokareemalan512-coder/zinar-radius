@@ -4,69 +4,252 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>زينار RADIUS - لوحة التحكم</title>
-    <!-- Bootstrap 5 RTL & FontAwesome -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root {
-            --bg-dark: #0b0f19;
-            --card-bg: #111827;
-            --border-color: #1f2937;
-            --accent-green: #a3e635;
-            --text-main: #f9fafb;
-            --text-muted: #9ca3af;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-            margin: 0;
-            padding: 0;
+            background-color: #0b0f19;
+            color: #f9fafb;
+            display: flex;
+            min-height: 100vh;
+            direction: rtl;
         }
 
-        .sidebar {
-            width: 250px;
-            background-color: var(--card-bg);
-            border-left: 1px solid var(--border-color);
+        /* Layout Structure */
+        .app-container {
+            display: flex;
+            width: 100%;
             height: 100vh;
-            position: fixed;
-            top: 0;
-            right: 0;
-            padding: 20px 10px;
+            overflow: hidden;
         }
 
-        .sidebar .nav-link {
-            color: var(--text-muted);
-            padding: 12px 15px;
+        /* Sidebar Design */
+        .sidebar {
+            width: 260px;
+            background-color: #111827;
+            border-left: 1px solid #1f2937;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 15px;
+            flex-shrink: 0;
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            padding: 0 8px;
+        }
+
+        .brand-logo {
+            background-color: #2563eb;
+            color: #ffffff;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .brand-text h1 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .brand-text span {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 10px;
+            padding: 0 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            color: #9ca3af;
+            text-decoration: none;
             border-radius: 8px;
-            margin-bottom: 5px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover {
+            background-color: #1f2937;
+            color: #ffffff;
+        }
+
+        .nav-item.active {
+            background-color: rgba(37, 99, 235, 0.15);
+            color: #3b82f6;
+            border-right: 3px solid #3b82f6;
+            font-weight: 600;
+        }
+
+        .user-profile-badge {
+            margin-top: auto;
+            background-color: #1f2937;
+            padding: 8px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            font-size: 22px;
+            font-weight: bold;
             display: flex;
             align-items: center;
             gap: 10px;
-            text-decoration: none;
         }
 
-        .sidebar .nav-link:hover, .sidebar .nav-link.active {
-            background-color: #1f2937;
-            color: var(--text-main);
+        .page-title p {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
         }
 
-        .main-content {
-            margin-right: 250px;
-            padding: 30px;
+        .btn-primary-custom {
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
         }
 
-        .card-custom {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
+        .btn-primary-custom:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Data Table */
+        .table-container {
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #161e2e;
+            color: #9ca3af;
+            padding: 14px;
+            font-weight: 600;
+            border-bottom: 1px solid #1f2937;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #1f2937;
+            color: #e5e7eb;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge-status {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(10, 185, 129, 0.3);
+            padding: 2px 10px;
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
+            font-size: 12px;
         }
 
-        /* تنسيق النافذة المنبثقة Modal */
+        .badge-type {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .badge-plan {
+            background-color: #1f2937;
+            color: #d1d5db;
+            border: 1px solid #374151;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .btn-delete {
+            background-color: #dc2626;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Modal Styles */
         .custom-modal-overlay {
             position: fixed;
             top: 0;
@@ -83,140 +266,173 @@
         .custom-modal-box {
             background-color: #111827;
             border: 1px solid #1f2937;
-            border-radius: 16px;
+            border-radius: 14px;
             width: 90%;
-            max-width: 500px;
-            padding: 28px;
+            max-width: 480px;
+            padding: 24px;
             color: #ffffff;
-            direction: rtl;
-            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
         }
 
         .custom-modal-box h3 {
-            margin-top: 0;
-            margin-bottom: 24px;
-            font-size: 20px;
+            margin-bottom: 20px;
+            font-size: 18px;
             font-weight: bold;
             text-align: center;
         }
 
         .form-group-custom {
-            margin-bottom: 16px;
-            text-align: right;
+            margin-bottom: 14px;
         }
 
         .form-group-custom label {
             display: block;
             margin-bottom: 6px;
-            font-size: 14px;
+            font-size: 13px;
             color: #9ca3af;
         }
 
         .form-input-custom {
             width: 100%;
-            padding: 12px 14px;
+            padding: 10px 12px;
             background-color: #1f2937;
             border: 1px solid #374151;
             border-radius: 8px;
             color: #ffffff;
             font-size: 14px;
-            box-sizing: border-box;
             outline: none;
         }
 
         .form-input-custom:focus {
-            border-color: var(--accent-green);
+            border-color: #2563eb;
         }
 
-        .btn-submit-custom {
-            width: 100%;
-            background-color: var(--accent-green);
+        .form-row-custom {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-submit-action {
+            background-color: #84cc16;
             color: #000000;
             font-weight: bold;
-            padding: 12px;
             border: none;
+            padding: 11px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 15px;
-            transition: all 0.2s;
+            flex: 1;
+            font-size: 14px;
         }
 
-        .btn-submit-custom:hover {
-            background-color: #84cc16;
-        }
-
-        .btn-cancel-custom {
+        .btn-cancel-action {
             background-color: #374151;
             color: #ffffff;
-            padding: 12px 20px;
             border: none;
+            padding: 11px 20px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 15px;
-        }
-
-        .table-custom {
-            color: var(--text-main);
-        }
-
-        .table-custom th {
-            color: var(--text-muted);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .table-custom td {
-            border-bottom: 1px solid var(--border-color);
-            vertical-align: middle;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
-    <!-- الشريط الجانبي -->
-    <div class="sidebar">
-        <h4 class="text-center fw-bold mb-4 text-light"><i class="fa-solid fa-wifi text-primary"></i> زينار RADIUS</h4>
-        <a href="#" class="nav-link active"><i class="fa-solid fa-chart-line"></i> لوحة التحكم</a>
-        <a href="#" onclick="openRouterModal()" class="nav-link"><i class="fa-solid fa-server"></i> الراوترات والسيرفرات</a>
-        <a href="/logout" class="nav-link text-danger mt-auto"><i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج</a>
-    </div>
+    <div class="app-container">
+        
+        <!-- الشريط الجانبي Sidebar -->
+        <aside class="sidebar">
+            <div class="brand-header">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-wifi"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>زينار RADIUS</h1>
+                    <span>zinar.net.com</span>
+                </div>
+            </div>
 
-    <!-- المحتوى الرئيسي -->
-    <div class="main-content">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>الراوترات والسيرفرات المربوطة</h2>
-            <button class="btn btn-primary" onclick="openRouterModal()">
-                <i class="fa-solid fa-plus ms-1"></i> ربط راوتر جديد
-            </button>
-        </div>
+            <div class="nav-section-title">القائمة الرئيسية</div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <span>المستخدمون والمشتركون</span>
+                    <i class="fa-solid fa-users"></i>
+                </a>
+                <a href="#" onclick="openRouterModal()" class="nav-item">
+                    <span>الراوترات السيرفرية</span>
+                    <i class="fa-solid fa-server"></i>
+                </a>
+                <a href="#" class="nav-item">
+                    <span>الباقات والخطط</span>
+                    <i class="fa-solid fa-box"></i>
+                </a>
+                <a href="#" class="nav-item">
+                    <span>الجلسات النشطة</span>
+                    <i class="fa-solid fa-chart-line"></i>
+                </a>
+            </nav>
 
-        <!-- جدول السيرفرات -->
-        <div class="card-custom">
-            <div class="table-responsive">
-                <table class="table table-custom align-middle">
+            <div class="user-profile-badge">
+                <div class="status-dot"></div>
+                <span style="flex: 1;">zenar512</span>
+                <span class="badge-status" style="padding: 1px 6px; font-size: 10px;">متصل</span>
+            </div>
+        </aside>
+
+        <!-- المحتوى الرئيسي Main Content -->
+        <main class="main-content">
+            
+            <div class="content-header">
+                <div class="page-title">
+                    <h2><i class="fa-solid fa-users-gear" style="color: #2563eb;"></i> إدارة المشتركين والمستخدمين</h2>
+                    <p>قائمة الحسابات الكاملة المربوطة بسيرفر RADIUS.</p>
+                </div>
+                <button class="btn-primary-custom" onclick="openRouterModal()">
+                    <i class="fa-solid fa-plus"></i> إضافة مشترك جديد
+                </button>
+            </div>
+
+            <!-- جدول البيانات -->
+            <div class="table-container">
+                <table>
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>اسم الراوتر</th>
-                            <th>IP Server / Domain</th>
-                            <th>Port</th>
-                            <th>الموقع</th>
+                            <th>اسم المستخدم</th>
+                            <th>كلمة المرور</th>
+                            <th>نوع الخدمة</th>
                             <th>الحالة</th>
+                            <th>الخطة</th>
+                            <th>السيرفر المرتبط</th>
+                            <th style="text-align: center;">إجراءات والتفاصيل</th>
                         </tr>
                     </thead>
                     <tbody id="routersTableBody">
-                        <!-- يتم جلب الراوترات عبر الجافاسكربت -->
+                        <tr>
+                            <td style="color: #60a5fa; font-weight: bold;">1988</td>
+                            <td style="color: #f472b6;">123</td>
+                            <td><span class="badge-type">Hotspot</span></td>
+                            <td><span class="badge-status">مفعل</span></td>
+                            <td><span class="badge-plan">10M {10$}</span></td>
+                            <td>ZINAR.net</td>
+                            <td style="text-align: center;">
+                                <button class="btn-delete" style="margin: 0 auto;">
+                                    <i class="fa-solid fa-trash"></i> حذف
+                                </button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
+
+        </main>
     </div>
 
-    <!-- نافذة ربط راوتر أو سيرفر جديد المنسقة -->
+    <!-- النافذة المنبثقة Modal -->
     <div id="addRouterModal" class="custom-modal-overlay">
         <div class="custom-modal-box">
             <h3>ربط راوتر أو سيرفر جديد</h3>
             
-            <form id="addRouterForm" onsubmit="event.preventDefault(); saveRouter();">
+            <form id="addRouterForm" onsubmit="saveRouter(event)">
                 
                 <div class="form-group-custom">
                     <label>اسم الراوتر / السيرفر</label>
@@ -225,70 +441,61 @@
 
                 <div class="form-group-custom">
                     <label>عنوان الراوتر العام أو النطاق</label>
-                    <input type="text" id="router_ip" class="form-input-custom" placeholder="مثال: 188.145.118.146" required>
+                    <input type="text" id="router_ip" class="form-input-custom" placeholder="عنوان الراوتر، وليس 188.145.118.146" required>
                 </div>
 
-                <div class="row g-2 mb-3">
-                    <div class="col-8">
-                        <div class="form-group-custom mb-0">
-                            <label>اسم المستخدم</label>
-                            <input type="text" id="router_username" class="form-input-custom" value="admin" required>
-                        </div>
+                <div class="form-row-custom">
+                    <div class="form-group-custom" style="flex: 2;">
+                        <label>اسم المستخدم</label>
+                        <input type="text" id="router_username" class="form-input-custom" value="admin" required>
                     </div>
-                    <div class="col-4">
-                        <div class="form-group-custom mb-0">
-                            <label>المنفذ (Port)</label>
-                            <input type="number" id="router_port" class="form-input-custom" value="8728" required>
-                        </div>
+                    <div class="form-group-custom" style="flex: 1;">
+                        <label>المنفذ (Port)</label>
+                        <input type="number" id="router_port" class="form-input-custom" value="8728" required>
                     </div>
                 </div>
 
                 <div class="form-group-custom">
                     <label>كلمة المرور</label>
-                    <input type="password" id="router_password" class="form-input-custom" placeholder="كلمة مرور المايكروتك">
+                    <input type="password" id="router_password" class="form-input-custom" placeholder="•••••">
                 </div>
 
-                <div class="form-group-custom d-flex align-items-center gap-2 mt-2">
-                    <input type="checkbox" id="router_ssl" style="width: 18px; height: 18px; cursor: pointer;">
+                <div class="form-group-custom" style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="router_ssl">
                     <label for="router_ssl" style="margin: 0; cursor: pointer; color: #ffffff;">API-SSL</label>
                 </div>
 
-                <div class="d-flex gap-2 mt-4">
-                    <button type="submit" class="btn-submit-custom">امتحن الاتصال والحفظ</button>
-                    <button type="button" onclick="closeRouterModal()" class="btn-cancel-custom">إلغاء</button>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" class="btn-submit-action">امتحن الاتصال والحفظ</button>
+                    <button type="button" onclick="closeRouterModal()" class="btn-cancel-action">إلغاء</button>
                 </div>
 
             </form>
         </div>
     </div>
 
-    <!-- JavaScript logic -->
+    <!-- JavaScript Script -->
     <script>
-        // فتح النافذة
         function openRouterModal() {
             document.getElementById('addRouterModal').style.display = 'flex';
         }
 
-        // إغلاق النافذة
         function closeRouterModal() {
             document.getElementById('addRouterModal').style.display = 'none';
         }
 
-        // حفظ السيرفر ومنع إعادة تحميل الصفحة
-        function saveRouter() {
-            const name = document.getElementById('router_name').value.trim();
-            const ip = document.getElementById('router_ip').value.trim();
-            const username = document.getElementById('router_username').value.trim();
+        function saveRouter(event) {
+            // لمنع إعادة تصفير الصفحة عند الضغط على الزر
+            if (event) event.preventDefault();
+
+            const name = document.getElementById('router_name').value;
+            const ip = document.getElementById('router_ip').value;
+            const username = document.getElementById('router_username').value;
             const port = document.getElementById('router_port').value;
             const password = document.getElementById('router_password').value;
             const use_ssl = document.getElementById('router_ssl').checked;
 
-            if (!name || !ip) {
-                alert('يرجى ملء جميع الخانات الأساسية!');
-                return;
-            }
-
-            const payload = {
+            const data = {
                 name: name,
                 ip_address: ip,
                 username: username,
@@ -302,47 +509,19 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(data)
             })
             .then(res => res.json())
-            .then(data => {
-                alert(data.message || 'تم حفظ السيرفر بنجاح!');
+            .then(res => {
+                alert(res.message || 'تم حفظ السيرفر بنجاح');
                 closeRouterModal();
-                loadRouters(); // تحديث الجدول فوراً
+                window.location.reload();
             })
             .catch(err => {
                 console.error('Error:', err);
-                alert('حدث خطأ أثناء حفظ السيرفر');
+                alert('حدث خطأ أثناء الاتصال بالسيرفر');
             });
         }
-
-        // جلب قائمة السيرفرات وعرضها بالجدول
-        function loadRouters() {
-            fetch('/api/routers')
-            .then(res => res.json())
-            .then(data => {
-                const tbody = document.getElementById('routersTableBody');
-                if (!tbody) return;
-                tbody.innerHTML = '';
-                
-                data.forEach((r, index) => {
-                    tbody.innerHTML += `
-                        <tr>
-                            <td>#${index + 1}</td>
-                            <td class="fw-bold">${r.name}</td>
-                            <td>${r.ip_address}</td>
-                            <td>${r.port}</td>
-                            <td>${r.location || 'الفرع الرئيسي'}</td>
-                            <td><span class="badge bg-success">متصل</span></td>
-                        </tr>
-                    `;
-                });
-            })
-            .catch(err => console.error('Error loading routers:', err));
-        }
-
-        // تحميل السيرفرات عند فتح الصفحة
-        window.onload = loadRouters;
     </script>
 </body>
 </html>
