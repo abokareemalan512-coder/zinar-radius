@@ -3,390 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة زينار - Zinar Radius Dashboard</title>
-    <!-- Bootstrap 5 CSS -->
+    <title>زينار RADIUS - User Manager Style</title>
+    <!-- Bootstrap 5 RTL -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons & FontAwesome -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Font Cairo -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --bg-silver: #f1f5f9;
-            --card-silver: #ffffff;
-            --border-color: #cbd5e1;
-            --text-dark: #0f172a;
-            --text-muted: #64748b;
-            --accent-blue: #2563eb;
-            --sidebar-dark: #0f172a;
-        }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-silver);
-            color: var(--text-dark);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Top Navbar */
-        .top-navbar {
-            background-color: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            padding: 0.75rem 1.5rem;
-            position: sticky;
-            top: 0;
-            z-index: 1030;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-        }
-
-        /* Sidebar Styling */
-        .sidebar {
-            width: 260px;
-            background-color: var(--sidebar-dark);
-            border-left: 1px solid var(--border-color);
-            min-height: calc(100vh - 65px);
-            padding: 1rem;
-            flex-shrink: 0;
-        }
-
-        .nav-link-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 11px 14px;
-            color: #94a3b8;
-            text-decoration: none;
-            border-radius: 8px;
-            margin-bottom: 4px;
-            transition: all 0.2s ease;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .nav-link-item:hover, .nav-link-item.active {
-            background-color: rgba(37, 99, 235, 0.15);
-            color: #60a5fa;
-        }
-
-        .nav-link-item i {
-            font-size: 1.15rem;
-            width: 24px;
-            text-align: center;
-        }
-
-        /* Dashboard Cards الفضية عالية التباين */
-        .stat-card {
-            background-color: var(--card-silver);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.25rem;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent-blue);
-            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.15);
-        }
-
-        .card-label {
-            color: var(--text-muted) !important;
-            font-size: 0.85rem;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .card-value {
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: var(--text-dark);
-        }
-
-        .icon-box {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-        }
-
-        /* Modal Customization */
-        .modal-content-silver {
-            background-color: #ffffff !important;
-            border: 1px solid var(--border-color) !important;
-            color: var(--text-dark) !important;
-            border-radius: 16px !important;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-control-silver, .form-select-silver {
-            background-color: #f8fafc !important;
-            border: 1px solid #cbd5e1 !important;
-            color: #0f172a !important;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-weight: 600;
-        }
-
-        .form-control-silver:focus, .form-select-silver:focus {
-            background-color: #ffffff !important;
-            border-color: var(--accent-blue) !important;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
-        }
-
-        .table-silver {
-            background-color: #ffffff;
-            color: #0f172a;
-        }
-
-        .toast-container {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 1090;
-        }
-
-        .content-section {
-            animation: fadeIn 0.25s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        body { font-family: 'Cairo', sans-serif; background-color: #f4f6f9; color: #333; }
+        .top-navbar { background-color: #ffffff; border-bottom: 1px solid #e3e8ee; padding: 0.75rem 1.5rem; }
+        .sidebar { width: 250px; background-color: #1e293b; color: #fff; min-height: calc(100vh - 60px); padding: 1rem; }
+        .nav-link-item { display: flex; align-items: center; gap: 10px; padding: 10px; color: #cbd5e1; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-weight: 600; cursor: pointer; }
+        .nav-link-item:hover, .nav-link-item.active { background-color: #3b82f6; color: #fff; }
+        
+        /* طاولة تفاصيل User Manager بالضبط */
+        .userman-table { background: #fff; border: 1px solid #d1d5db; border-radius: 6px; width: 100%; margin-bottom: 1.5rem; }
+        .userman-table td, .userman-table th { padding: 10px 15px; border-bottom: 1px solid #e5e7eb; vertical-align: middle; }
+        .userman-table td:first-child { background-color: #f9fafb; font-weight: bold; width: 25%; color: #4b5563; text-align: left; }
+        .userman-table td:last-child { font-weight: 600; color: #111827; }
+        .badge-enabled { background-color: #84cc16; color: #fff; padding: 4px 12px; border-radius: 4px; font-weight: bold; }
+        .badge-plan { background-color: #e5e7eb; color: #374151; padding: 4px 12px; border-radius: 4px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <!-- الهيدر العلوي -->
     <nav class="top-navbar d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center gap-3">
-            <button class="btn btn-outline-secondary d-md-none text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
-                <i class="bi bi-list fs-4"></i>
-            </button>
-            <div class="d-flex align-items-center gap-2">
-                <div class="bg-primary text-white p-2 rounded-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                    <i class="fa-solid fa-wifi fs-5"></i>
-                </div>
-                <div>
-                    <h5 class="m-0 fw-bold text-dark">زينار RADIUS</h5>
-                    <small class="text-muted" style="font-size: 0.75rem;">zinar.net.com</small>
-                </div>
-            </div>
+        <div class="d-flex align-items-center gap-2">
+            <h5 class="m-0 fw-bold text-primary"><i class="bi bi-wifi me-2"></i>منصة زينار RADIUS</h5>
         </div>
-
-        <!-- حقل البحث المتقدم عن المشترك باسه واسم المستخدم -->
-        <div class="d-none d-lg-flex align-items-center gap-2 bg-light px-3 py-1.5 rounded-pill border border-secondary border-opacity-25" style="max-width: 420px; width: 100%;">
-            <i class="bi bi-search text-muted"></i>
-            <input type="text" id="globalSearchInput" class="bg-transparent border-0 text-dark w-full outline-none fs-7" placeholder="بحث باسم المشترك، اسم المستخدم، IP..." style="outline: none; width: 100%;" onkeyup="filterTables()">
-        </div>
-
         <div class="d-flex align-items-center gap-3">
-            <span class="badge bg-success-subtle text-success border border-success px-2.5 py-1 rounded-pill d-none d-sm-inline-flex align-items-center gap-1">
-                <span class="spinner-grow spinner-grow-sm"></span> متصل
-            </span>
-
-            <div class="dropdown">
-                <button class="btn btn-outline-dark text-dark dropdown-toggle rounded-pill px-3 fw-bold" type="button" data-bs-toggle="dropdown">
-                    <i class="bi bi-person-circle me-1 text-primary"></i> <span id="navAdminName">admin</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end shadow p-2 mt-2 border-secondary" style="min-width: 240px;">
-                    <li class="px-3 py-2 border-bottom mb-1">
-                        <small class="text-muted d-block">الحساب النشط</small>
-                        <strong class="text-primary fs-6 d-flex align-items-center gap-2">
-                            <i class="bi bi-shield-check text-success"></i> <span id="dropdownUsername">admin</span>
-                        </strong>
-                    </li>
-                    <li>
-                        <button class="dropdown-item py-2 rounded d-flex align-items-center gap-2 text-dark fw-bold" data-bs-toggle="modal" data-bs-target="#changeProfileModal">
-                            <i class="bi bi-key-fill text-warning fs-5"></i> <span>تغيير الاسم وكلمة المرور</span>
-                        </button>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <a class="dropdown-item text-danger py-2 rounded d-flex align-items-center gap-2 fw-bold" href="/logout">
-                            <i class="bi bi-box-arrow-right fs-5"></i> <span>تسجيل الخروج</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <span class="badge bg-success">سيرفر متصل</span>
+            <button class="btn btn-outline-dark btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#changeProfileModal"><i class="bi bi-person-circle"></i> <span id="navAdminName">admin</span></button>
+            <a href="/logout" class="btn btn-danger btn-sm"><i class="bi bi-box-arrow-right"></i></a>
         </div>
     </nav>
 
-    <!-- القائمة الجانبية والمحتوى -->
     <div class="d-flex">
-        <aside class="sidebar collapse d-md-block" id="sidebarMenu">
-            <div class="mb-4">
-                <small class="text-uppercase text-muted fw-bold px-2" style="font-size: 0.7rem;">القائمة الرئيسية</small>
-
-                <a class="nav-link-item active mt-2" onclick="switchSection('dashboard', this)">
-                    <i class="bi bi-speedometer2"></i> <span>لوحة التحكم</span>
-                </a>
-                <a class="nav-link-item" onclick="switchSection('customers', this)">
-                    <i class="bi bi-building"></i> <span>العملاء</span>
-                </a>
-                <a class="nav-link-item" onclick="switchSection('users', this)">
-                    <i class="bi bi-people-fill"></i> <span>المستخدمون والمشتركون</span>
-                </a>
-                <a class="nav-link-item" onclick="switchSection('packages', this)">
-                    <i class="bi bi-box-seam"></i> <span>الباقات</span>
-                </a>
-                <a class="nav-link-item" onclick="switchSection('vouchers', this)">
-                    <i class="bi bi-ticket-perforated"></i> <span>الكوبونات</span>
-                </a>
-                <a class="nav-link-item" onclick="switchSection('routers', this)">
-                    <i class="bi bi-router"></i> <span>الراوترات</span>
-                </a>
-                <a class="nav-link-item" onclick="switchSection('sessions', this)">
-                    <i class="bi bi-wifi"></i> <span>الجلسات النشطة</span>
-                    <span class="badge bg-success ms-auto" id="sidebarSessionBadge">0</span>
-                </a>
-                <a class="nav-link-item" onclick="switchSection('payments', this)">
-                    <i class="bi bi-cash-stack"></i> <span>المدفوعات</span>
-                </a>
-                <a class="nav-link-item" onclick="switchSection('reports', this)">
-                    <i class="bi bi-graph-up-arrow"></i> <span>التقارير</span>
-                </a>
-            </div>
-
-            <div class="pt-3 border-top border-secondary border-opacity-25">
-                <small class="text-uppercase text-muted fw-bold px-2" style="font-size: 0.7rem;">إدارة الحساب والأمان</small>
-                <button class="nav-link-item text-warning w-100 border-0 bg-transparent text-start mt-2" data-bs-toggle="modal" data-bs-target="#changeProfileModal">
-                    <i class="bi bi-shield-lock-fill text-warning"></i> <span>تغيير الاسم وكلمة المرور</span>
-                </button>
-            </div>
+        <aside class="sidebar">
+            <small class="text-uppercase text-muted fw-bold d-block mb-2">القائمة</small>
+            <a class="nav-link-item active" onclick="switchSection('users', this)"><i class="bi bi-people-fill"></i> المشتركون (User Manager)</a>
+            <a class="nav-link-item" onclick="switchSection('routers', this)"><i class="bi bi-router-fill"></i> الراوترات</a>
+            <a class="nav-link-item" onclick="switchSection('packages', this)"><i class="bi bi-box-seam"></i> الباقات والخطط</a>
         </aside>
 
-        <!-- المنطقة الرئيسية -->
-        <main class="flex-grow-1 p-3 p-md-4">
+        <main class="flex-grow-1 p-4">
             
-            <!-- 1. لوحة التحكم الفضية -->
-            <div id="section-dashboard" class="content-section">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <div>
-                        <h3 class="fw-bold text-dark mb-1">لوحة التحكم</h3>
-                        <p class="text-muted mb-0 small">ملخص الأرقام والشبكة والراوترات اليوم.</p>
-                    </div>
-                    <button class="btn btn-outline-dark btn-sm rounded-3 fw-bold" onclick="loadAllData(); showNotification('تم تحديث البيانات بنجاح')">
-                        <i class="bi bi-arrow-clockwise me-1"></i> تحديث البيانات
-                    </button>
+            <!-- قسم المشتركين User Manager -->
+            <div id="section-users" class="content-section">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="fw-bold m-0"><i class="bi bi-person-vcard text-primary me-2"></i>إدارة حسابات المشتركين</h4>
+                    <button class="btn btn-primary fw-bold" data-bs-toggle="modal" data-bs-target="#addUserModal"><i class="bi bi-plus-lg"></i> إضافة مستخدم جديد</button>
                 </div>
 
-                <!-- البطاقات الإحصائية الـ 8 واضحة ومتباينة باللون الفضي -->
-                <div class="row g-3 mb-4">
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="stat-card" onclick="switchSection('users')">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">إجمالي المشتركين</span><div class="card-value text-primary" id="cardTotalUsers">0</div></div>
-                                <div class="icon-box bg-primary bg-opacity-10 text-primary"><i class="bi bi-people-fill"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="stat-card" onclick="switchSection('sessions')">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">الجلسات النشطة (active)</span><div class="card-value text-success" id="cardActiveSessions">0</div></div>
-                                <div class="icon-box bg-success bg-opacity-10 text-success"><i class="bi bi-wifi"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="stat-card" onclick="switchSection('packages')">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">الباقات المتاحة</span><div class="card-value text-warning" id="cardPackages">0</div></div>
-                                <div class="icon-box bg-warning bg-opacity-10 text-warning"><i class="bi bi-box-seam"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="stat-card" onclick="switchSection('routers')">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">الراوترات المربوطة</span><div class="card-value text-info" id="cardRouters">0</div></div>
-                                <div class="icon-box bg-info bg-opacity-10 text-info"><i class="bi bi-router-fill"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="stat-card" onclick="switchSection('payments')">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">أرباح اليوم (today_revenue)</span><div class="card-value text-danger" id="cardRevenue">0 $</div></div>
-                                <div class="icon-box bg-danger bg-opacity-10 text-danger"><i class="bi bi-wallet2"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="stat-card" onclick="switchSection('customers')">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">العملاء المزودون</span><div class="card-value" style="color: #8b5cf6;" id="cardCustomers">0</div></div>
-                                <div class="icon-box" style="background-color: rgba(139, 92, 246, 0.1); color: #8b5cf6;"><i class="bi bi-building"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="stat-card" onclick="switchSection('vouchers')">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">الكروت النشطة</span><div class="card-value text-success" id="cardVouchers">0</div></div>
-                                <div class="icon-box bg-success bg-opacity-10 text-success"><i class="bi bi-ticket-detailed"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="stat-card" onclick="switchSection('users')">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">مشتركون جدد اليوم</span><div class="card-value text-warning" id="cardNewUsers">0</div></div>
-                                <div class="icon-box bg-warning bg-opacity-10 text-warning"><i class="bi bi-person-plus-fill"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 2. قسم الراوترات -->
-            <div id="section-routers" class="content-section d-none">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold text-dark m-0"><i class="bi bi-router text-info me-2"></i> الراوترات والسيرفرات المربوطة</h4>
-                    <button class="btn btn-info btn-sm text-white fw-bold" data-bs-toggle="modal" data-bs-target="#addRouterModal"><i class="bi bi-plus-circle-fill me-1"></i> ربط راوتر جديد</button>
-                </div>
-                <div class="card border-0 shadow-sm rounded-3">
+                <div class="card shadow-sm border-0 mb-4">
                     <div class="card-body p-0">
-                        <table class="table table-hover align-middle mb-0" id="routersTable">
-                            <thead class="table-light"><tr><th>#</th><th>اسم الراوتر</th><th>IP Server</th><th>RADIUS Port</th><th>الموقع</th><th>الحالة</th><th>إجراء</th></tr></thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3. قسم المستخدمين والمشتركين -->
-            <div id="section-users" class="content-section d-none">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold text-dark m-0"><i class="bi bi-people-fill text-primary me-2"></i> إدارة المشتركين والمستخدمين</h4>
-                    <button class="btn btn-primary btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#addUserModal"><i class="bi bi-person-plus-fill me-1"></i> إضافة مشترك جديد</button>
-                </div>
-
-                <div class="card border-0 shadow-sm rounded-3">
-                    <div class="card-body p-0">
-                        <table class="table table-hover align-middle mb-0" id="usersTable">
+                        <table class="table table-hover align-middle m-0" id="usersMainTable">
                             <thead class="table-light">
                                 <tr>
-                                    <th>#</th>
-                                    <th>اسم المشترك الحقيقي</th>
                                     <th>اسم المستخدم</th>
                                     <th>كلمة المرور</th>
-                                    <th>الباقة</th>
-                                    <th>عنوان IP</th>
-                                    <th>تاريخ البداية</th>
-                                    <th>تاريخ الانتهاء</th>
                                     <th>الحالة</th>
-                                    <th>إجراء</th>
+                                    <th>الخطة</th>
+                                    <th>التحميل</th>
+                                    <th>الرفع</th>
+                                    <th>تاريخ الانتهاء</th>
+                                    <th>الإجراءات</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -395,340 +76,162 @@
                 </div>
             </div>
 
-            <!-- 4. قسم الباقات -->
+            <!-- قسم الراوترات -->
+            <div id="section-routers" class="content-section d-none">
+                <h4 class="fw-bold mb-3">الراوترات والسيرفرات</h4>
+                <button class="btn btn-info text-white fw-bold mb-3" data-bs-toggle="modal" data-bs-target="#addRouterModal">ربط راوتر جديد</button>
+                <div class="card border-0 shadow-sm"><div class="card-body p-0"><table class="table m-0" id="routersTable"><thead class="table-light"><tr><th>ID</th><th>اسم الراوتر</th><th>IP</th><th>Port</th><th>الموقع</th><th>الحالة</th></tr></thead><tbody></tbody></table></div></div>
+            </div>
+
+            <!-- قسم الباقات -->
             <div id="section-packages" class="content-section d-none">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold text-dark m-0"><i class="bi bi-box-seam text-warning me-2"></i> إدارة الباقات والاشتراكات</h4>
-                    <button class="btn btn-warning btn-sm text-dark fw-bold" data-bs-toggle="modal" data-bs-target="#addPackageModal"><i class="bi bi-plus-circle-fill me-1"></i> إضافة باقة جديدة</button>
-                </div>
+                <h4 class="fw-bold mb-3">الخطط والباقات</h4>
                 <div class="row g-3" id="packagesContainer"></div>
-            </div>
-
-            <!-- 5. قسم العملاء -->
-            <div id="section-customers" class="content-section d-none">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold text-dark m-0"><i class="bi bi-building text-purple me-2"></i> قائمة العملاء الحسابية</h4>
-                    <button class="btn btn-secondary btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#addCustomerModal"><i class="bi bi-plus-circle-fill me-1"></i> إضافة عميل</button>
-                </div>
-                <div class="card border-0 shadow-sm rounded-3">
-                    <div class="card-body p-0">
-                        <table class="table table-hover align-middle mb-0" id="customersTable">
-                            <thead class="table-light"><tr><th>#</th><th>اسم العميل</th><th>رقم الهاتف</th><th>الحالة</th></tr></thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 6. قسم الكوبونات -->
-            <div id="section-vouchers" class="content-section d-none">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold text-dark m-0"><i class="bi bi-ticket-perforated text-success me-2"></i> الكروت والكوبونات</h4>
-                    <button class="btn btn-success btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#addVoucherModal"><i class="bi bi-plus-circle-fill me-1"></i> إنشاء كارت جديد</button>
-                </div>
-                <div class="card border-0 shadow-sm rounded-3">
-                    <div class="card-body p-0">
-                        <table class="table table-hover align-middle mb-0" id="vouchersTable">
-                            <thead class="table-light"><tr><th>#</th><th>كود الكارت</th><th>الباقة</th><th>السعر</th><th>الحالة</th></tr></thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 7. الجلسات النشطة -->
-            <div id="section-sessions" class="content-section d-none">
-                <h4 class="fw-bold text-dark mb-4"><i class="bi bi-wifi text-success me-2"></i> الجلسات النشطة أونلاين</h4>
-                <div class="card border-0 shadow-sm rounded-3">
-                    <div class="card-body p-0">
-                        <table class="table table-hover align-middle mb-0" id="sessionsTable">
-                            <thead class="table-light"><tr><th>المستخدم</th><th>MAC Address</th><th>IP Address</th><th>مدة الاتصال</th></tr></thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 8. المدفوعات -->
-            <div id="section-payments" class="content-section d-none">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold text-dark m-0"><i class="bi bi-cash-stack text-danger me-2"></i> سجل المدفوعات والإيرادات</h4>
-                    <button class="btn btn-danger btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#addPaymentModal"><i class="bi bi-plus-circle-fill me-1"></i> تسجيل دفعة جديدة</button>
-                </div>
-                <div class="card border-0 shadow-sm rounded-3">
-                    <div class="card-body p-0">
-                        <table class="table table-hover align-middle mb-0" id="paymentsTable">
-                            <thead class="table-light"><tr><th>#</th><th>اسم العميل</th><th>المبلغ ($)</th><th>التاريخ</th></tr></thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 9. التقارير -->
-            <div id="section-reports" class="content-section d-none">
-                <h4 class="fw-bold text-dark mb-4"><i class="bi bi-graph-up-arrow text-info me-2"></i> التقارير والتحليلات</h4>
-                <div class="alert alert-light border text-dark">نظام التقارير والإحصائيات المباشرة مفعل.</div>
             </div>
 
         </main>
     </div>
 
-    <!-- ==================== النوافذ المنبثقة Modals ==================== -->
-    
-    <!-- Modal إضافة باقة (تنزيل، تحميل، اسم، سعر، مدة بالأيام) -->
-    <div class="modal fade" id="addPackageModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-content-silver">
-                <div class="modal-header border-bottom">
-                    <h5 class="modal-title text-warning fw-bold"><i class="bi bi-box-seam me-2"></i>إضافة باقة جديدة</h5>
+    <!-- ==================== نافذة تفاصيل المشترك المطابقة للـ User Manager بالكامل ==================== -->
+    <div class="modal fade" id="userDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold text-primary"><i class="bi bi-person-badge me-2"></i>تفاصيل المشترك: <span id="viewUsernameHeader" class="text-dark">61779069</span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form onsubmit="savePackage(event)">
-                    <div class="modal-body p-4">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">اسم الباقة</label>
-                            <input type="text" id="pName" class="form-control form-control-silver" placeholder="مثال: 1m" required>
-                        </div>
-                        <div class="row g-2 mb-3">
-                            <div class="col-6">
-                                <label class="form-label fw-bold">سرعة التنزيل (Download)</label>
-                                <input type="text" id="pDownSpeed" class="form-control form-control-silver" placeholder="مثال: 1M / 10M" required>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label fw-bold">سرعة التحميل (Upload)</label>
-                                <input type="text" id="pUpSpeed" class="form-control form-control-silver" placeholder="مثال: 512K / 2M" required>
-                            </div>
-                        </div>
-                        <div class="row g-2 mb-3">
-                            <div class="col-6">
-                                <label class="form-label fw-bold">السعر ($)</label>
-                                <input type="number" id="pPrice" class="form-control form-control-silver" placeholder="4" required>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label fw-bold">المدة بالأيام (Day)</label>
-                                <input type="number" id="pDuration" class="form-control form-control-silver" value="30" required>
-                            </div>
-                        </div>
+                <div class="modal-body p-4">
+                    
+                    <!-- جدول التفاصيل المطابق للصورة 100% -->
+                    <table class="userman-table">
+                        <tr><td>كلمة المرور</td><td><span id="vPassword">123</span></td></tr>
+                        <tr><td>الحاله</td><td><span class="badge-enabled" id="vStatus">مفعل</span></td></tr>
+                        <tr><td>الخطه</td><td><span class="badge-plan" id="vPlan">5M</span></td></tr>
+                        <tr><td>السرفر</td><td><span class="badge bg-secondary" id="vServer">Not Found</span></td></tr>
+                        <tr><td>ماك ادرس</td><td><code id="vMac">00:00:00:00:00:00</code></td></tr>
+                        <tr><td>الاي بي</td><td><code id="vIp">0.0.0.0</code></td></tr>
+                        <tr><td>اجمالي التحميل</td><td><strong class="text-primary" id="vDownload">GB 342.98</strong></td></tr>
+                        <tr><td>اجمالي الرفع</td><td><strong class="text-info" id="vUpload">GB 35.69</strong></td></tr>
+                        <tr><td>وقت الاتصال</td><td><span id="vUptime">20d15h50m55s</span></td></tr>
+                        <tr><td>تاريخ الانتهاء</td><td><span class="text-danger fw-bold" id="vExpire">09:03:10AM (4 Days) 19-09-2026</span></td></tr>
+                    </table>
+
+                    <!-- جدول الخطة السفلي المطابق للصورة -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="fw-bold m-0">الخطه والقيود:</h6>
+                        <button class="btn btn-outline-danger btn-sm fw-bold" onclick="addPlanToUser()"><i class="bi bi-plus-circle me-1"></i>أضف خطه</button>
                     </div>
-                    <div class="modal-footer border-top">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                        <button type="submit" class="btn btn-warning text-dark fw-bold">حفظ الباقة</button>
-                    </div>
-                </form>
+
+                    <table class="table table-bordered align-middle text-center small">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>الخطه</th>
+                                <th>وقت الاتصال</th>
+                                <th>وقت الاتصال المحدد</th>
+                                <th>المسموح به</th>
+                                <th>المستخدمه</th>
+                                <th>تصفير</th>
+                                <th>تفاصيل</th>
+                                <th>تصفير</th>
+                                <th>حذف</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><span class="badge bg-secondary" id="vSubPlan">5M</span></td>
+                                <td id="vSubUptime">20d15h50m55s</td>
+                                <td>0s</td>
+                                <td><span class="badge bg-light text-dark border" id="vAllowed">unlimited</span></td>
+                                <td id="vUsedData">GB 378.68</td>
+                                <td><button class="btn btn-warning btn-sm py-0 px-2 fw-bold" onclick="resetUserCounters()">عند تجديد الباقه</button></td>
+                                <td><button class="btn btn-outline-info btn-sm py-0 px-2">تفاصيل</button></td>
+                                <td><button class="btn btn-warning btn-sm py-0 px-2 fw-bold" onclick="resetUserCounters()">تصفير</button></td>
+                                <td><button class="btn btn-danger btn-sm py-0 px-2" onclick="deleteCurrentUser()"><i class="bi bi-trash"></i> حذف</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal إضافة مستخدم ومشترك (اسم المشترك، اسم المستخدم، الباسورد، الباقة، IP، بداية، انتهاء) -->
+    <!-- نافذة إضافة مستخدم جديد -->
     <div class="modal fade" id="addUserModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content modal-content-silver">
-                <div class="modal-header border-bottom">
-                    <h5 class="modal-title text-primary fw-bold"><i class="bi bi-person-plus-fill me-2"></i>إضافة مشترك ومستخدم جديد</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header"><h5 class="modal-title fw-bold">إضافة مستخدم جديد</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
                 <form onsubmit="saveUser(event)">
-                    <div class="modal-body p-4">
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">اسم المشترك الحقيقي</label>
-                                <input type="text" id="uSubscriberName" class="form-control form-control-silver" placeholder="مثال: أحمد علي" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">اسم المستخدم (Username)</label>
-                                <input type="text" id="uName" class="form-control form-control-silver" placeholder="12648" required>
-                            </div>
-                        </div>
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">كلمة المرور (Password)</label>
-                                <input type="text" id="uPass" class="form-control form-control-silver" placeholder="••••••••" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">اختر الباقة</label>
-                                <select id="uPkgSelect" class="form-select form-select-silver" required></select>
-                            </div>
-                        </div>
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-4">
-                                <label class="form-label fw-bold">عنوان الـ IP</label>
-                                <input type="text" id="uIp" class="form-control form-control-silver" value="192.168.88.15" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-bold">تاريخ البداية</label>
-                                <input type="date" id="uStartDate" class="form-control form-control-silver" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-bold">تاريخ الانتهاء</label>
-                                <input type="date" id="uExpireDate" class="form-control form-control-silver" required>
-                            </div>
-                        </div>
+                    <div class="modal-body">
+                        <div class="mb-3"><label class="form-label fw-bold">اسم المستخدم (الكارت/الحساب)</label><input type="text" id="addUsername" class="form-control" placeholder="61779069" required></div>
+                        <div class="mb-3"><label class="form-label fw-bold">كلمة المرور</label><input type="text" id="addPassword" class="form-control" value="123" required></div>
+                        <div class="mb-3"><label class="form-label fw-bold">الخطة</label><input type="text" id="addPlan" class="form-control" value="5M" required></div>
                     </div>
-                    <div class="modal-footer border-top">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                        <button type="submit" class="btn btn-primary fw-bold">حفظ المشترك</button>
-                    </div>
+                    <div class="modal-footer"><button type="submit" class="btn btn-primary fw-bold">حفظ المستخدم</button></div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Modal ربط راوتر -->
-    <div class="modal fade" id="addRouterModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-content-silver">
-                <div class="modal-header border-bottom">
-                    <h5 class="modal-title fw-bold text-info"><i class="bi bi-router-fill me-2"></i>ربط راوتر MikroTik جديد</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form onsubmit="saveRouter(event)">
-                    <div class="modal-body p-4">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">اسم الراوتر</label>
-                            <input type="text" id="rName" class="form-control form-control-silver" placeholder="ZENAR.net" required>
-                        </div>
-                        <div class="row g-2 mb-3">
-                            <div class="col-8">
-                                <label class="form-label fw-bold">IP Server</label>
-                                <input type="text" id="rIp" class="form-control form-control-silver" placeholder="198.145.118.146" required>
-                            </div>
-                            <div class="col-4">
-                                <label class="form-label fw-bold">Port</label>
-                                <input type="number" id="rPort" class="form-control form-control-silver" value="1812">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Radius Secret</label>
-                            <input type="password" id="rSecret" class="form-control form-control-silver" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">الموقع</label>
-                            <input type="text" id="rLoc" class="form-control form-control-silver" placeholder="الفرع الأول">
-                        </div>
-                    </div>
-                    <div class="modal-footer border-top">
-                        <button type="submit" class="btn btn-info text-white fw-bold">حفظ السيرفر</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal تعديل اسم المستخدم وكلمة المرور للمدير (تحديث حقيقي بقاعدة البيانات) -->
-    <div class="modal fade" id="changeProfileModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-content-silver">
-                <div class="modal-header border-bottom">
-                    <h5 class="modal-title text-dark fw-bold"><i class="bi bi-shield-lock-fill text-warning me-2"></i>تعديل حساب المدير الحقيقي</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form onsubmit="updateProfile(event)">
-                    <div class="modal-body p-4">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">اسم المستخدم الجديد</label>
-                            <input type="text" id="profUser" class="form-control form-control-silver" value="admin" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">كلمة المرور الجديدة</label>
-                            <input type="password" id="profPass" class="form-control form-control-silver" placeholder="أدخل كلمة مرور جديدة...">
-                        </div>
-                    </div>
-                    <div class="modal-footer border-top">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                        <button type="submit" class="btn btn-warning text-dark fw-bold">حفظ التغييرات الآن</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="toast-container" id="toastContainer"></div>
+    <!-- باقي النوافذ الإدارية -->
+    <div class="modal fade" id="addRouterModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content p-3"><form onsubmit="saveRouter(event)"><input type="text" id="rName" class="form-control mb-2" placeholder="الاسم" required><input type="text" id="rIp" class="form-control mb-2" placeholder="IP" required><input type="password" id="rSecret" class="form-control mb-2" placeholder="Secret" required><button type="submit" class="btn btn-info text-white">حفظ</button></form></div></div></div>
+    <div class="modal fade" id="changeProfileModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content p-3"><form onsubmit="updateAdmin(event)"><input type="text" id="admUser" class="form-control mb-2" value="admin" required><input type="password" id="admPass" class="form-control mb-2" placeholder="كلمة سر جديدة"><button type="submit" class="btn btn-warning">حفظ التغييرات</button></form></div></div></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // ضبط التواريخ التلقائية في نافذة المشترك
-            const today = new Date().toISOString().split('T')[0];
-            const nextMonth = new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0];
-            document.getElementById('uStartDate').value = today;
-            document.getElementById('uExpireDate').value = nextMonth;
+        let currentSelectedUserId = null;
 
-            loadAdminProfile();
-            loadAllData();
-        });
-
-        async function loadAdminProfile() {
-            try {
-                const res = await fetch('/api/admin/current');
-                const data = await res.json();
-                if(data.username) {
-                    document.getElementById('navAdminName').textContent = data.username;
-                    document.getElementById('dropdownUsername').textContent = data.username;
-                    document.getElementById('profUser').value = data.username;
-                }
-            } catch(e) {}
-        }
+        document.addEventListener("DOMContentLoaded", loadAllData);
 
         async function loadAllData() {
-            loadRouters();
             loadUsers();
-            loadPackages();
-            loadCustomers();
-            loadVouchers();
-            loadSessions();
-            loadPayments();
-        }
-
-        async function loadRouters() {
-            try {
-                const res = await fetch('/api/routers');
-                const data = await res.json();
-                document.querySelector('#routersTable tbody').innerHTML = data.map(r => `<tr><td>#${r.id}</td><td class="fw-bold">${r.name}</td><td><code class="text-primary">${r.ip_address}</code></td><td>${r.radius_port}</td><td>${r.location}</td><td><span class="badge bg-success">${r.status}</span></td><td><button class="btn btn-sm btn-outline-danger" onclick="deleteRouter(${r.id})"><i class="bi bi-trash"></i></button></td></tr>`).join('');
-                document.getElementById('cardRouters').textContent = data.length;
-            } catch(e) {}
-        }
-
-        async function saveRouter(e) {
-            e.preventDefault();
-            await fetch('/api/routers', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ name: document.getElementById('rName').value, ip_address: document.getElementById('rIp').value, radius_port: document.getElementById('rPort').value, secret: document.getElementById('rSecret').value, location: document.getElementById('rLoc').value })
-            });
-            bootstrap.Modal.getInstance(document.getElementById('addRouterModal')).hide();
-            showNotification('تم حفظ الراوتر بنجاح بقاعدة البيانات');
             loadRouters();
-        }
-
-        async function deleteRouter(id) {
-            if(confirm('حذف الراوتر؟')) {
-                await fetch(`/api/routers/${id}`, {method: 'DELETE'});
-                showNotification('تم الحذف');
-                loadRouters();
-            }
+            loadPackages();
         }
 
         async function loadUsers() {
-            try {
-                const res = await fetch('/api/users');
-                const data = await res.json();
-                document.querySelector('#usersTable tbody').innerHTML = data.map(u => `
-                    <tr>
-                        <td>#${u.id}</td>
-                        <td class="fw-bold text-dark">${u.subscriber_name || 'غير محدد'}</td>
-                        <td><code class="text-primary fw-bold">${u.username}</code></td>
-                        <td><code>${u.password || '••••'}</code></td>
-                        <td><span class="badge bg-primary">${u.package_name}</span></td>
-                        <td>${u.ip_address}</td>
-                        <td class="small">${u.start_date}</td>
-                        <td class="small text-danger fw-bold">${u.expire_date}</td>
-                        <td><span class="badge bg-success">${u.status}</span></td>
-                        <td><button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${u.id})"><i class="bi bi-trash"></i></button></td>
-                    </tr>
-                `).join('');
-                document.getElementById('cardTotalUsers').textContent = data.length;
-            } catch(e) {}
+            const res = await fetch('/api/users');
+            const data = await res.json();
+            document.querySelector('#usersMainTable tbody').innerHTML = data.map(u => `
+                <tr>
+                    <td class="fw-bold text-primary">${u.username}</td>
+                    <td><code>${u.password}</code></td>
+                    <td><span class="badge-enabled">${u.status}</span></td>
+                    <td><span class="badge-plan">${u.plan_name}</span></td>
+                    <td>${u.download_gb} GB</td>
+                    <td>${u.upload_gb} GB</td>
+                    <td class="small text-danger fw-bold">${u.expire_date}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary fw-bold" onclick="openUserDetails(${u.id})"><i class="bi bi-eye"></i> تفاصيل UserManager</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function openUserDetails(id) {
+            currentSelectedUserId = id;
+            const res = await fetch(`/api/users/${id}`);
+            const u = await res.json();
+
+            document.getElementById('viewUsernameHeader').textContent = u.username;
+            document.getElementById('vPassword').textContent = u.password;
+            document.getElementById('vStatus').textContent = u.status;
+            document.getElementById('vPlan').textContent = u.plan_name;
+            document.getElementById('vSubPlan').textContent = u.plan_name;
+            document.getElementById('vServer').textContent = u.server_name;
+            document.getElementById('vMac').textContent = u.mac_address;
+            document.getElementById('vIp').textContent = u.ip_address;
+            document.getElementById('vDownload').textContent = `GB ${u.download_gb}`;
+            document.getElementById('vUpload').textContent = `GB ${u.upload_gb}`;
+            document.getElementById('vUptime').textContent = u.uptime;
+            document.getElementById('vSubUptime').textContent = u.uptime;
+            document.getElementById('vExpire').textContent = u.expire_date;
+            document.getElementById('vAllowed').textContent = u.allowed_data;
+            document.getElementById('vUsedData').textContent = `GB ${u.used_data_gb}`;
+
+            new bootstrap.Modal(document.getElementById('userDetailsModal')).show();
         }
 
         async function saveUser(e) {
@@ -737,153 +240,71 @@
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    subscriber_name: document.getElementById('uSubscriberName').value,
-                    username: document.getElementById('uName').value,
-                    password: document.getElementById('uPass').value,
-                    package_name: document.getElementById('uPkgSelect').value,
-                    ip_address: document.getElementById('uIp').value,
-                    start_date: document.getElementById('uStartDate').value,
-                    expire_date: document.getElementById('uExpireDate').value
+                    username: document.getElementById('addUsername').value,
+                    password: document.getElementById('addPassword').value,
+                    plan_name: document.getElementById('addPlan').value
                 })
             });
             bootstrap.Modal.getInstance(document.getElementById('addUserModal')).hide();
-            showNotification('تم إضافة المشترك والمستخدم بنجاح');
             loadUsers();
         }
 
-        async function deleteUser(id) {
-            if(confirm('حذف المشترك والمستخدم؟')) {
-                await fetch(`/api/users/${id}`, {method: 'DELETE'});
-                showNotification('تم الحذف بنجاح');
+        async function resetUserCounters() {
+            if(currentSelectedUserId && confirm('هل تريد تصفير العدادات وإعادة التجديد؟')) {
+                await fetch(`/api/users/${currentSelectedUserId}/reset`, {method: 'POST'});
+                alert('تم التصفير بنجاح');
+                openUserDetails(currentSelectedUserId);
                 loadUsers();
             }
         }
 
-        async function loadPackages() {
-            try {
-                const res = await fetch('/api/packages');
-                const data = await res.json();
-                
-                document.getElementById('packagesContainer').innerHTML = data.map(p => `
-                    <div class="col-md-4">
-                        <div class="card border-0 shadow-sm p-3 text-center rounded-3 bg-white">
-                            <h5 class="fw-bold text-primary">${p.name}</h5>
-                            <h2 class="fw-bold text-dark my-2">${p.price}$</h2>
-                            <p class="text-muted small mb-1">تنزيل: <strong>${p.download_speed}</strong> | تحميل: <strong>${p.upload_speed}</strong></p>
-                            <span class="badge bg-secondary m-auto px-3 py-1">المدة: ${p.duration_days} يوم</span>
-                        </div>
-                    </div>
-                `).join('');
-
-                document.getElementById('cardPackages').textContent = data.length;
-
-                // ملء منسدلة الباقات في نافذة إضافة مستخدم
-                const select = document.getElementById('uPkgSelect');
-                if (data.length > 0) {
-                    select.innerHTML = data.map(p => `<option value="${p.name}">${p.name} (${p.price}$ - ${p.download_speed})</option>`).join('');
-                } else {
-                    select.innerHTML = `<option value="1m">1m (4$)</option>`;
-                }
-            } catch(e) {}
+        async function deleteCurrentUser() {
+            if(currentSelectedUserId && confirm('حذف المشترك؟')) {
+                await fetch(`/api/users/${currentSelectedUserId}`, {method: 'DELETE'});
+                bootstrap.Modal.getInstance(document.getElementById('userDetailsModal')).hide();
+                loadUsers();
+            }
         }
 
-        async function savePackage(e) {
-            e.preventDefault();
-            await fetch('/api/packages', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    name: document.getElementById('pName').value,
-                    download_speed: document.getElementById('pDownSpeed').value,
-                    upload_speed: document.getElementById('pUpSpeed').value,
-                    price: document.getElementById('pPrice').value,
-                    duration_days: document.getElementById('pDuration').value
-                })
-            });
-            bootstrap.Modal.getInstance(document.getElementById('addPackageModal')).hide();
-            showNotification('تم إضافة الباقة بنجاح');
-            loadPackages();
-        }
-
-        async function loadCustomers() {
-            try {
-                const res = await fetch('/api/customers');
-                const data = await res.json();
-                document.querySelector('#customersTable tbody').innerHTML = data.map(c => `<tr><td>#${c.id}</td><td class="fw-bold">${c.name}</td><td>${c.phone}</td><td><span class="badge bg-primary">${c.status}</span></td></tr>`).join('');
-                document.getElementById('cardCustomers').textContent = data.length;
-            } catch(e) {}
-        }
-
-        async function loadVouchers() {
-            try {
-                const res = await fetch('/api/vouchers');
-                const data = await res.json();
-                document.querySelector('#vouchersTable tbody').innerHTML = data.map(v => `<tr><td>#${v.id}</td><td class="fw-bold text-warning">${v.code}</td><td>${v.package_name}</td><td>${v.price}$</td><td><span class="badge bg-success">${v.status}</span></td></tr>`).join('');
-                document.getElementById('cardVouchers').textContent = data.length;
-            } catch(e) {}
-        }
-
-        async function loadSessions() {
-            try {
-                const res = await fetch('/api/sessions');
-                const data = await res.json();
-                document.querySelector('#sessionsTable tbody').innerHTML = data.map(s => `<tr><td class="fw-bold text-dark">${s.username}</td><td>${s.mac_address}</td><td>${s.ip_address}</td><td>${s.duration}</td></tr>`).join('');
-                document.getElementById('cardActiveSessions').textContent = data.length;
-                document.getElementById('sidebarSessionBadge').textContent = data.length;
-            } catch(e) {}
-        }
-
-        async function loadPayments() {
-            try {
-                const res = await fetch('/api/payments');
-                const data = await res.json();
-                let total = 0;
-                document.querySelector('#paymentsTable tbody').innerHTML = data.map(p => { total += p.amount; return `<tr><td>#${p.id}</td><td class="fw-bold">${p.customer_name}</td><td class="text-success fw-bold">${p.amount}$</td><td>${p.date}</td></tr>`; }).join('');
-                document.getElementById('cardRevenue').textContent = `${total} $`;
-            } catch(e) {}
-        }
-
-        async function updateProfile(e) {
-            e.preventDefault();
-            const userVal = document.getElementById('profUser').value;
-            const passVal = document.getElementById('profPass').value;
-            
-            const res = await fetch('/api/profile/update', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ username: userVal, password: passVal })
-            });
-            
+        async function loadRouters() {
+            const res = await fetch('/api/routers');
             const data = await res.json();
-            document.getElementById('navAdminName').textContent = data.username;
-            document.getElementById('dropdownUsername').textContent = data.username;
+            document.querySelector('#routersTable tbody').innerHTML = data.map(r => `<tr><td>#${r.id}</td><td>${r.name}</td><td><code>${r.ip_address}</code></td><td>${r.radius_port}</td><td>${r.location}</td><td><span class="badge bg-success">${r.status}</span></td></tr>`).join('');
+        }
+
+        async function saveRouter(e) {
+            e.preventDefault();
+            await fetch('/api/routers', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ name: document.getElementById('rName').value, ip_address: document.getElementById('rIp').value, secret: document.getElementById('rSecret').value })
+            });
+            bootstrap.Modal.getInstance(document.getElementById('addRouterModal')).hide();
+            loadRouters();
+        }
+
+        async function loadPackages() {
+            const res = await fetch('/api/packages');
+            const data = await res.json();
+            document.getElementById('packagesContainer').innerHTML = data.map(p => `<div class="col-md-4"><div class="card p-3"><h5 class="fw-bold">${p.name}</h5><h2>${p.price}$</h2><p>${p.download_speed} / ${p.upload_speed}</p></div></div>`).join('');
+        }
+
+        async function updateAdmin(e) {
+            e.preventDefault();
+            await fetch('/api/profile/update', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ username: document.getElementById('admUser').value, password: document.getElementById('admPass').value })
+            });
             bootstrap.Modal.getInstance(document.getElementById('changeProfileModal')).hide();
-            showNotification(data.message);
+            alert('تم الحفظ');
         }
 
         function switchSection(name, el) {
             document.querySelectorAll('.content-section').forEach(s => s.classList.add('d-none'));
-            const sec = document.getElementById(`section-${name}`);
-            if(sec) sec.classList.remove('d-none');
-            if(el) {
-                document.querySelectorAll('.nav-link-item').forEach(n => n.classList.remove('active'));
-                el.classList.add('active');
-            }
-        }
-
-        function showNotification(msg) {
-            const c = document.getElementById('toastContainer');
-            const tId = 't_' + Date.now();
-            c.insertAdjacentHTML('beforeend', `<div id="${tId}" class="toast bg-dark text-white border-0 shadow mb-2"><div class="d-flex"><div class="toast-body fw-bold">${msg}</div><button class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div></div>`);
-            const toast = new bootstrap.Toast(document.getElementById(tId), {delay: 3000});
-            toast.show();
-        }
-
-        function filterTables() {
-            const val = document.getElementById('globalSearchInput').value.toLowerCase();
-            document.querySelectorAll('tbody tr').forEach(r => { 
-                r.style.display = r.innerText.toLowerCase().includes(val) ? '' : 'none'; 
-            });
+            document.getElementById(`section-${name}`).classList.remove('d-none');
+            document.querySelectorAll('.nav-link-item').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
         }
     </script>
 </body>
