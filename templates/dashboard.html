@@ -14,34 +14,38 @@
     
     <style>
         :root {
-            --bg-dark: #121621;
-            --card-dark: #1b2130;
-            --border-color: #2a3447;
-            --accent-blue: #3b82f6;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
+            --bg-silver: #f1f5f9;
+            --card-silver: #ffffff;
+            --border-color: #cbd5e1;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --accent-blue: #2563eb;
+            --sidebar-dark: #0f172a;
         }
 
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            background-color: var(--bg-silver);
+            color: var(--text-dark);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
+        /* Top Navbar */
         .top-navbar {
-            background-color: #171d2c;
+            background-color: #ffffff;
             border-bottom: 1px solid var(--border-color);
             padding: 0.75rem 1.5rem;
             position: sticky;
             top: 0;
             z-index: 1030;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
         }
 
+        /* Sidebar Styling */
         .sidebar {
             width: 260px;
-            background-color: #171d2c;
+            background-color: var(--sidebar-dark);
             border-left: 1px solid var(--border-color);
             min-height: calc(100vh - 65px);
             padding: 1rem;
@@ -52,8 +56,8 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 10px 14px;
-            color: var(--text-muted);
+            padding: 11px 14px;
+            color: #94a3b8;
             text-decoration: none;
             border-radius: 8px;
             margin-bottom: 4px;
@@ -63,7 +67,7 @@
         }
 
         .nav-link-item:hover, .nav-link-item.active {
-            background-color: rgba(59, 130, 246, 0.15);
+            background-color: rgba(37, 99, 235, 0.15);
             color: #60a5fa;
         }
 
@@ -73,61 +77,74 @@
             text-align: center;
         }
 
-        /* البطاقات وتصحيح لون النص المكتوب عليها ليكون واضحاً */
+        /* Dashboard Cards الفضية عالية التباين */
         .stat-card {
-            background-color: var(--card-dark);
+            background-color: var(--card-silver);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 1.25rem;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
         .stat-card:hover {
             transform: translateY(-4px);
-            border-color: #3b82f6;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent-blue);
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.15);
         }
 
         .card-label {
-            color: #94a3b8 !important; /* لون رمادي فاتح واضح جداً */
+            color: var(--text-muted) !important;
             font-size: 0.85rem;
-            font-weight: 600;
+            font-weight: 700;
             display: block;
             margin-bottom: 4px;
         }
 
+        .card-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
         .icon-box {
-            width: 52px;
-            height: 52px;
+            width: 50px;
+            height: 50px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
         }
 
-        /* توحيد وتصحيح تصميم حقول الإدخال بالنوافذ */
-        .modal-content-dark {
-            background-color: #1a202c !important;
+        /* Modal Customization */
+        .modal-content-silver {
+            background-color: #ffffff !important;
             border: 1px solid var(--border-color) !important;
-            color: var(--text-main) !important;
+            color: var(--text-dark) !important;
             border-radius: 16px !important;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
-        .form-control-dark, .form-select-dark {
-            background-color: #0f172a !important;
-            border: 1px solid #334155 !important;
-            color: #ffffff !important;
+        .form-control-silver, .form-select-silver {
+            background-color: #f8fafc !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
             padding: 10px 14px;
             border-radius: 8px;
+            font-weight: 600;
         }
 
-        .form-control-dark:focus, .form-select-dark:focus {
-            background-color: #0f172a !important;
+        .form-control-silver:focus, .form-select-silver:focus {
+            background-color: #ffffff !important;
             border-color: var(--accent-blue) !important;
-            color: #ffffff !important;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25) !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+        }
+
+        .table-silver {
+            background-color: #ffffff;
+            color: #0f172a;
         }
 
         .toast-container {
@@ -152,7 +169,7 @@
     <!-- الهيدر العلوي -->
     <nav class="top-navbar d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-3">
-            <button class="btn btn-outline-secondary d-md-none text-light" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
+            <button class="btn btn-outline-secondary d-md-none text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
                 <i class="bi bi-list fs-4"></i>
             </button>
             <div class="d-flex align-items-center gap-2">
@@ -160,39 +177,40 @@
                     <i class="fa-solid fa-wifi fs-5"></i>
                 </div>
                 <div>
-                    <h5 class="m-0 fw-bold text-white">زينار RADIUS</h5>
+                    <h5 class="m-0 fw-bold text-dark">زينار RADIUS</h5>
                     <small class="text-muted" style="font-size: 0.75rem;">zinar.net.com</small>
                 </div>
             </div>
         </div>
 
-        <div class="d-none d-lg-flex align-items-center gap-2 bg-dark px-3 py-1 rounded-pill border border-secondary" style="max-width: 320px; width: 100%;">
+        <!-- حقل البحث المتقدم عن المشترك باسه واسم المستخدم -->
+        <div class="d-none d-lg-flex align-items-center gap-2 bg-light px-3 py-1.5 rounded-pill border border-secondary border-opacity-25" style="max-width: 420px; width: 100%;">
             <i class="bi bi-search text-muted"></i>
-            <input type="text" id="globalSearchInput" class="bg-transparent border-0 text-white w-full outline-none fs-7" placeholder="بحث عن مستخدم، كارت، راوتر..." style="outline: none; width: 100%;" onkeyup="filterTables()">
+            <input type="text" id="globalSearchInput" class="bg-transparent border-0 text-dark w-full outline-none fs-7" placeholder="بحث باسم المشترك، اسم المستخدم، IP..." style="outline: none; width: 100%;" onkeyup="filterTables()">
         </div>
 
         <div class="d-flex align-items-center gap-3">
-            <span class="badge bg-success-subtle text-success border border-success px-2 py-1 rounded-pill d-none d-sm-inline-flex align-items-center gap-1">
+            <span class="badge bg-success-subtle text-success border border-success px-2.5 py-1 rounded-pill d-none d-sm-inline-flex align-items-center gap-1">
                 <span class="spinner-grow spinner-grow-sm"></span> متصل
             </span>
 
             <div class="dropdown">
-                <button class="btn btn-outline-secondary text-white dropdown-toggle rounded-pill px-3" type="button" data-bs-toggle="dropdown">
-                    <i class="bi bi-person-circle me-1"></i> <span id="navAdminName">admin</span>
+                <button class="btn btn-outline-dark text-dark dropdown-toggle rounded-pill px-3 fw-bold" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-person-circle me-1 text-primary"></i> <span id="navAdminName">admin</span>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg p-2 mt-2 border-secondary" style="min-width: 240px;">
-                    <li class="px-3 py-2 border-bottom border-secondary mb-1">
+                <ul class="dropdown-menu dropdown-menu-end shadow p-2 mt-2 border-secondary" style="min-width: 240px;">
+                    <li class="px-3 py-2 border-bottom mb-1">
                         <small class="text-muted d-block">الحساب النشط</small>
-                        <strong class="text-warning fs-6 d-flex align-items-center gap-2">
+                        <strong class="text-primary fs-6 d-flex align-items-center gap-2">
                             <i class="bi bi-shield-check text-success"></i> <span id="dropdownUsername">admin</span>
                         </strong>
                     </li>
                     <li>
-                        <button class="dropdown-item py-2 rounded d-flex align-items-center gap-2 text-warning fw-bold" data-bs-toggle="modal" data-bs-target="#changeProfileModal">
+                        <button class="dropdown-item py-2 rounded d-flex align-items-center gap-2 text-dark fw-bold" data-bs-toggle="modal" data-bs-target="#changeProfileModal">
                             <i class="bi bi-key-fill text-warning fs-5"></i> <span>تغيير الاسم وكلمة المرور</span>
                         </button>
                     </li>
-                    <li><hr class="dropdown-divider bg-secondary"></li>
+                    <li><hr class="dropdown-divider"></li>
                     <li>
                         <a class="dropdown-item text-danger py-2 rounded d-flex align-items-center gap-2 fw-bold" href="/logout">
                             <i class="bi bi-box-arrow-right fs-5"></i> <span>تسجيل الخروج</span>
@@ -203,7 +221,7 @@
         </div>
     </nav>
 
-    <!-- القائمة الجانبية + المنطقة الرئيسية -->
+    <!-- القائمة الجانبية والمحتوى -->
     <div class="d-flex">
         <aside class="sidebar collapse d-md-block" id="sidebarMenu">
             <div class="mb-4">
@@ -216,7 +234,7 @@
                     <i class="bi bi-building"></i> <span>العملاء</span>
                 </a>
                 <a class="nav-link-item" onclick="switchSection('users', this)">
-                    <i class="bi bi-people-fill"></i> <span>المستخدمون</span>
+                    <i class="bi bi-people-fill"></i> <span>المستخدمون والمشتركون</span>
                 </a>
                 <a class="nav-link-item" onclick="switchSection('packages', this)">
                     <i class="bi bi-box-seam"></i> <span>الباقات</span>
@@ -239,7 +257,7 @@
                 </a>
             </div>
 
-            <div class="pt-3 border-top border-secondary">
+            <div class="pt-3 border-top border-secondary border-opacity-25">
                 <small class="text-uppercase text-muted fw-bold px-2" style="font-size: 0.7rem;">إدارة الحساب والأمان</small>
                 <button class="nav-link-item text-warning w-100 border-0 bg-transparent text-start mt-2" data-bs-toggle="modal" data-bs-target="#changeProfileModal">
                     <i class="bi bi-shield-lock-fill text-warning"></i> <span>تغيير الاسم وكلمة المرور</span>
@@ -247,83 +265,84 @@
             </div>
         </aside>
 
+        <!-- المنطقة الرئيسية -->
         <main class="flex-grow-1 p-3 p-md-4">
             
-            <!-- 1. قسم لوحة التحكم -->
+            <!-- 1. لوحة التحكم الفضية -->
             <div id="section-dashboard" class="content-section">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <div>
-                        <h3 class="fw-bold text-white mb-1">لوحة التحكم</h3>
-                        <p class="text-muted mb-0 small">مرحباً بك مجدداً! ملخص حالة النظام والشبكة اليوم.</p>
+                        <h3 class="fw-bold text-dark mb-1">لوحة التحكم</h3>
+                        <p class="text-muted mb-0 small">ملخص الأرقام والشبكة والراوترات اليوم.</p>
                     </div>
-                    <button class="btn btn-outline-light btn-sm rounded-3" onclick="loadAllData(); showNotification('تم تحديث البيانات بنجاح')">
-                        <i class="bi bi-arrow-clockwise"></i> تحديث البيانات
+                    <button class="btn btn-outline-dark btn-sm rounded-3 fw-bold" onclick="loadAllData(); showNotification('تم تحديث البيانات بنجاح')">
+                        <i class="bi bi-arrow-clockwise me-1"></i> تحديث البيانات
                     </button>
                 </div>
 
-                <!-- البطاقات الإحصائية مع تمييز العناوين بالوضوح المريح -->
+                <!-- البطاقات الإحصائية الـ 8 واضحة ومتباينة باللون الفضي -->
                 <div class="row g-3 mb-4">
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="stat-card" onclick="switchSection('users')">
                             <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">إجمالي المستخدمين</span><h2 class="fw-bold text-white mb-0" id="cardTotalUsers">0</h2></div>
-                                <div class="icon-box bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25"><i class="bi bi-people-fill"></i></div>
+                                <div><span class="card-label">إجمالي المشتركين</span><div class="card-value text-primary" id="cardTotalUsers">0</div></div>
+                                <div class="icon-box bg-primary bg-opacity-10 text-primary"><i class="bi bi-people-fill"></i></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="stat-card" onclick="switchSection('sessions')">
                             <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">الجلسات النشطة (active)</span><h2 class="fw-bold text-success mb-0" id="cardActiveSessions">0</h2></div>
-                                <div class="icon-box bg-success bg-opacity-10 text-success border border-success border-opacity-25"><i class="bi bi-wifi"></i></div>
+                                <div><span class="card-label">الجلسات النشطة (active)</span><div class="card-value text-success" id="cardActiveSessions">0</div></div>
+                                <div class="icon-box bg-success bg-opacity-10 text-success"><i class="bi bi-wifi"></i></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="stat-card" onclick="switchSection('packages')">
                             <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">الباقات المتاحة</span><h2 class="fw-bold text-warning mb-0" id="cardPackages">0</h2></div>
-                                <div class="icon-box bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25"><i class="bi bi-box-seam"></i></div>
+                                <div><span class="card-label">الباقات المتاحة</span><div class="card-value text-warning" id="cardPackages">0</div></div>
+                                <div class="icon-box bg-warning bg-opacity-10 text-warning"><i class="bi bi-box-seam"></i></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="stat-card" onclick="switchSection('routers')">
                             <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">الراوترات المربوطة</span><h2 class="fw-bold text-info mb-0" id="cardRouters">0</h2></div>
-                                <div class="icon-box bg-info bg-opacity-10 text-info border border-info border-opacity-25"><i class="bi bi-router-fill"></i></div>
+                                <div><span class="card-label">الراوترات المربوطة</span><div class="card-value text-info" id="cardRouters">0</div></div>
+                                <div class="icon-box bg-info bg-opacity-10 text-info"><i class="bi bi-router-fill"></i></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="stat-card" onclick="switchSection('payments')">
                             <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">أرباح اليوم (today_revenue)</span><h2 class="fw-bold text-danger mb-0" id="cardRevenue">0 $</h2></div>
-                                <div class="icon-box bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25"><i class="bi bi-wallet2"></i></div>
+                                <div><span class="card-label">أرباح اليوم (today_revenue)</span><div class="card-value text-danger" id="cardRevenue">0 $</div></div>
+                                <div class="icon-box bg-danger bg-opacity-10 text-danger"><i class="bi bi-wallet2"></i></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="stat-card" onclick="switchSection('customers')">
                             <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">العملاء المزودون</span><h2 class="fw-bold mb-0" style="color: #a855f7;" id="cardCustomers">0</h2></div>
-                                <div class="icon-box border" style="background-color: rgba(168, 85, 247, 0.1); color: #a855f7; border-color: rgba(168, 85, 247, 0.3);"><i class="bi bi-building"></i></div>
+                                <div><span class="card-label">العملاء المزودون</span><div class="card-value" style="color: #8b5cf6;" id="cardCustomers">0</div></div>
+                                <div class="icon-box" style="background-color: rgba(139, 92, 246, 0.1); color: #8b5cf6;"><i class="bi bi-building"></i></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="stat-card" onclick="switchSection('vouchers')">
                             <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">الكروت النشطة</span><h2 class="fw-bold text-success mb-0" id="cardVouchers">0</h2></div>
-                                <div class="icon-box bg-success bg-opacity-10 text-success border border-success border-opacity-25"><i class="bi bi-ticket-detailed"></i></div>
+                                <div><span class="card-label">الكروت النشطة</span><div class="card-value text-success" id="cardVouchers">0</div></div>
+                                <div class="icon-box bg-success bg-opacity-10 text-success"><i class="bi bi-ticket-detailed"></i></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="stat-card" onclick="switchSection('users')">
                             <div class="d-flex align-items-center justify-content-between">
-                                <div><span class="card-label">مستخدمون جدد اليوم</span><h2 class="fw-bold text-warning mb-0" id="cardNewUsers">0</h2></div>
-                                <div class="icon-box bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25"><i class="bi bi-person-plus-fill"></i></div>
+                                <div><span class="card-label">مشتركون جدد اليوم</span><div class="card-value text-warning" id="cardNewUsers">0</div></div>
+                                <div class="icon-box bg-warning bg-opacity-10 text-warning"><i class="bi bi-person-plus-fill"></i></div>
                             </div>
                         </div>
                     </div>
@@ -333,29 +352,43 @@
             <!-- 2. قسم الراوترات -->
             <div id="section-routers" class="content-section d-none">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold text-white m-0"><i class="bi bi-router text-info me-2"></i> الراوترات والسيرفرات المربوطة</h4>
-                    <button class="btn btn-info btn-sm text-dark fw-bold" data-bs-toggle="modal" data-bs-target="#addRouterModal"><i class="bi bi-plus-circle-fill me-1"></i> ربط راوتر جديد</button>
+                    <h4 class="fw-bold text-dark m-0"><i class="bi bi-router text-info me-2"></i> الراوترات والسيرفرات المربوطة</h4>
+                    <button class="btn btn-info btn-sm text-white fw-bold" data-bs-toggle="modal" data-bs-target="#addRouterModal"><i class="bi bi-plus-circle-fill me-1"></i> ربط راوتر جديد</button>
                 </div>
-                <div class="card bg-dark border-secondary">
+                <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body p-0">
-                        <table class="table table-dark table-hover align-middle mb-0" id="routersTable">
-                            <thead><tr><th>#</th><th>اسم الراوتر</th><th>IP Server</th><th>RADIUS Port</th><th>الموقع</th><th>الحالة</th><th>إجراء</th></tr></thead>
+                        <table class="table table-hover align-middle mb-0" id="routersTable">
+                            <thead class="table-light"><tr><th>#</th><th>اسم الراوتر</th><th>IP Server</th><th>RADIUS Port</th><th>الموقع</th><th>الحالة</th><th>إجراء</th></tr></thead>
                             <tbody></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- 3. قسم المستخدمون -->
+            <!-- 3. قسم المستخدمين والمشتركين -->
             <div id="section-users" class="content-section d-none">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold text-white m-0"><i class="bi bi-people-fill text-primary me-2"></i> إدارة المشتركين والمستخدمين</h4>
-                    <button class="btn btn-primary btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#addUserModal"><i class="bi bi-person-plus-fill me-1"></i> إضافة مستخدم جديد</button>
+                    <h4 class="fw-bold text-dark m-0"><i class="bi bi-people-fill text-primary me-2"></i> إدارة المشتركين والمستخدمين</h4>
+                    <button class="btn btn-primary btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#addUserModal"><i class="bi bi-person-plus-fill me-1"></i> إضافة مشترك جديد</button>
                 </div>
-                <div class="card bg-dark border-secondary">
+
+                <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body p-0">
-                        <table class="table table-dark table-hover align-middle mb-0" id="usersTable">
-                            <thead><tr><th>#</th><th>اسم المستخدم</th><th>الباقة</th><th>عنوان IP</th><th>تاريخ الانتهاء</th><th>الحالة</th><th>إجراء</th></tr></thead>
+                        <table class="table table-hover align-middle mb-0" id="usersTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>اسم المشترك الحقيقي</th>
+                                    <th>اسم المستخدم</th>
+                                    <th>كلمة المرور</th>
+                                    <th>الباقة</th>
+                                    <th>عنوان IP</th>
+                                    <th>تاريخ البداية</th>
+                                    <th>تاريخ الانتهاء</th>
+                                    <th>الحالة</th>
+                                    <th>إجراء</th>
+                                </tr>
+                            </thead>
                             <tbody></tbody>
                         </table>
                     </div>
@@ -365,7 +398,7 @@
             <!-- 4. قسم الباقات -->
             <div id="section-packages" class="content-section d-none">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold text-white m-0"><i class="bi bi-box-seam text-warning me-2"></i> إدارة الباقات والاشتراكات</h4>
+                    <h4 class="fw-bold text-dark m-0"><i class="bi bi-box-seam text-warning me-2"></i> إدارة الباقات والاشتراكات</h4>
                     <button class="btn btn-warning btn-sm text-dark fw-bold" data-bs-toggle="modal" data-bs-target="#addPackageModal"><i class="bi bi-plus-circle-fill me-1"></i> إضافة باقة جديدة</button>
                 </div>
                 <div class="row g-3" id="packagesContainer"></div>
@@ -374,13 +407,13 @@
             <!-- 5. قسم العملاء -->
             <div id="section-customers" class="content-section d-none">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold text-white m-0"><i class="bi bi-building text-purple me-2"></i> قائمة العملاء الحسابية</h4>
+                    <h4 class="fw-bold text-dark m-0"><i class="bi bi-building text-purple me-2"></i> قائمة العملاء الحسابية</h4>
                     <button class="btn btn-secondary btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#addCustomerModal"><i class="bi bi-plus-circle-fill me-1"></i> إضافة عميل</button>
                 </div>
-                <div class="card bg-dark border-secondary">
+                <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body p-0">
-                        <table class="table table-dark table-hover align-middle mb-0" id="customersTable">
-                            <thead><tr><th>#</th><th>اسم العميل</th><th>رقم الهاتف</th><th>الحالة</th></tr></thead>
+                        <table class="table table-hover align-middle mb-0" id="customersTable">
+                            <thead class="table-light"><tr><th>#</th><th>اسم العميل</th><th>رقم الهاتف</th><th>الحالة</th></tr></thead>
                             <tbody></tbody>
                         </table>
                     </div>
@@ -390,13 +423,13 @@
             <!-- 6. قسم الكوبونات -->
             <div id="section-vouchers" class="content-section d-none">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold text-white m-0"><i class="bi bi-ticket-perforated text-success me-2"></i> الكروت والكوبونات المولّدة</h4>
+                    <h4 class="fw-bold text-dark m-0"><i class="bi bi-ticket-perforated text-success me-2"></i> الكروت والكوبونات</h4>
                     <button class="btn btn-success btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#addVoucherModal"><i class="bi bi-plus-circle-fill me-1"></i> إنشاء كارت جديد</button>
                 </div>
-                <div class="card bg-dark border-secondary">
+                <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body p-0">
-                        <table class="table table-dark table-hover align-middle mb-0" id="vouchersTable">
-                            <thead><tr><th>#</th><th>كود الكارت</th><th>الباقة</th><th>السعر</th><th>الحالة</th></tr></thead>
+                        <table class="table table-hover align-middle mb-0" id="vouchersTable">
+                            <thead class="table-light"><tr><th>#</th><th>كود الكارت</th><th>الباقة</th><th>السعر</th><th>الحالة</th></tr></thead>
                             <tbody></tbody>
                         </table>
                     </div>
@@ -405,11 +438,11 @@
 
             <!-- 7. الجلسات النشطة -->
             <div id="section-sessions" class="content-section d-none">
-                <h4 class="fw-bold text-white mb-4"><i class="bi bi-wifi text-success me-2"></i> الجلسات النشطة أونلاين</h4>
-                <div class="card bg-dark border-secondary">
+                <h4 class="fw-bold text-dark mb-4"><i class="bi bi-wifi text-success me-2"></i> الجلسات النشطة أونلاين</h4>
+                <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body p-0">
-                        <table class="table table-dark table-hover align-middle mb-0" id="sessionsTable">
-                            <thead><tr><th>المستخدم</th><th>MAC Address</th><th>IP Address</th><th>مدة الاتصال</th></tr></thead>
+                        <table class="table table-hover align-middle mb-0" id="sessionsTable">
+                            <thead class="table-light"><tr><th>المستخدم</th><th>MAC Address</th><th>IP Address</th><th>مدة الاتصال</th></tr></thead>
                             <tbody></tbody>
                         </table>
                     </div>
@@ -419,13 +452,13 @@
             <!-- 8. المدفوعات -->
             <div id="section-payments" class="content-section d-none">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold text-white m-0"><i class="bi bi-cash-stack text-danger me-2"></i> سجل المدفوعات والإيرادات</h4>
+                    <h4 class="fw-bold text-dark m-0"><i class="bi bi-cash-stack text-danger me-2"></i> سجل المدفوعات والإيرادات</h4>
                     <button class="btn btn-danger btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#addPaymentModal"><i class="bi bi-plus-circle-fill me-1"></i> تسجيل دفعة جديدة</button>
                 </div>
-                <div class="card bg-dark border-secondary">
+                <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body p-0">
-                        <table class="table table-dark table-hover align-middle mb-0" id="paymentsTable">
-                            <thead><tr><th>#</th><th>اسم العميل</th><th>المبلغ ($)</th><th>التاريخ</th></tr></thead>
+                        <table class="table table-hover align-middle mb-0" id="paymentsTable">
+                            <thead class="table-light"><tr><th>#</th><th>اسم العميل</th><th>المبلغ ($)</th><th>التاريخ</th></tr></thead>
                             <tbody></tbody>
                         </table>
                     </div>
@@ -434,113 +467,52 @@
 
             <!-- 9. التقارير -->
             <div id="section-reports" class="content-section d-none">
-                <h4 class="fw-bold text-white mb-4"><i class="bi bi-graph-up-arrow text-info me-2"></i> التقارير والتحليلات</h4>
-                <div class="alert alert-dark border-secondary text-white">التقارير المباشرة مفعلة ومربوطة بالنظام.</div>
+                <h4 class="fw-bold text-dark mb-4"><i class="bi bi-graph-up-arrow text-info me-2"></i> التقارير والتحليلات</h4>
+                <div class="alert alert-light border text-dark">نظام التقارير والإحصائيات المباشرة مفعل.</div>
             </div>
 
         </main>
     </div>
 
-    <!-- ===== Modals (النوافذ المنبثقة بحقول داكنة موحدة) ===== -->
+    <!-- ==================== النوافذ المنبثقة Modals ==================== -->
     
-    <!-- Modal إضافة راوتر -->
-    <div class="modal fade" id="addRouterModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-content-dark">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title fw-bold text-info"><i class="bi bi-router-fill me-2"></i>ربط راوتر MikroTik</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <form onsubmit="saveRouter(event)">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label text-white">اسم الراوتر</label>
-                            <input type="text" id="rName" class="form-control form-control-dark" placeholder="ZENAR.net" required>
-                        </div>
-                        <div class="row g-2 mb-3">
-                            <div class="col-8">
-                                <label class="form-label text-white">IP Server</label>
-                                <input type="text" id="rIp" class="form-control form-control-dark" placeholder="198.145.118.146" required>
-                            </div>
-                            <div class="col-4">
-                                <label class="form-label text-white">RADIUS Port</label>
-                                <input type="number" id="rPort" class="form-control form-control-dark" value="1812">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label text-white">Radius Secret</label>
-                            <input type="password" id="rSecret" class="form-control form-control-dark" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label text-white">الموقع</label>
-                            <input type="text" id="rLoc" class="form-control form-control-dark" placeholder="الفرع الأول">
-                        </div>
-                    </div>
-                    <div class="modal-footer border-secondary">
-                        <button type="submit" class="btn btn-info fw-bold text-dark">حفظ السيرفر</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal إضافة مستخدم منسدلة الباقات الديناميكية -->
-    <div class="modal fade" id="addUserModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-content-dark">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title text-primary fw-bold"><i class="bi bi-person-plus-fill me-2"></i>إضافة مستخدم جديد</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <form onsubmit="saveUser(event)">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label text-white">اسم المستخدم</label>
-                            <input type="text" id="uName" class="form-control form-control-dark" placeholder="أدخل اسم المستخدم أو الرقم" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label text-white">الباقة</label>
-                            <select id="uPkgSelect" class="form-select form-select-dark" required>
-                                <!-- يتم ملؤها ديناميكياً بالباقات المضافة -->
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer border-secondary">
-                        <button type="submit" class="btn btn-primary fw-bold">حفظ المستخدم</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal إضافة باقة -->
+    <!-- Modal إضافة باقة (تنزيل، تحميل، اسم، سعر، مدة بالأيام) -->
     <div class="modal fade" id="addPackageModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-content-dark">
-                <div class="modal-header border-secondary">
+            <div class="modal-content modal-content-silver">
+                <div class="modal-header border-bottom">
                     <h5 class="modal-title text-warning fw-bold"><i class="bi bi-box-seam me-2"></i>إضافة باقة جديدة</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form onsubmit="savePackage(event)">
-                    <div class="modal-body">
+                    <div class="modal-body p-4">
                         <div class="mb-3">
-                            <label class="form-label text-white">اسم الباقة</label>
-                            <input type="text" id="pName" class="form-control form-control-dark" placeholder="مثال: 1m" required>
+                            <label class="form-label fw-bold">اسم الباقة</label>
+                            <input type="text" id="pName" class="form-control form-control-silver" placeholder="مثال: 1m" required>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label text-white">السعر ($)</label>
-                            <input type="number" id="pPrice" class="form-control form-control-dark" placeholder="4" required>
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label class="form-label fw-bold">سرعة التنزيل (Download)</label>
+                                <input type="text" id="pDownSpeed" class="form-control form-control-silver" placeholder="مثال: 1M / 10M" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label fw-bold">سرعة التحميل (Upload)</label>
+                                <input type="text" id="pUpSpeed" class="form-control form-control-silver" placeholder="مثال: 512K / 2M" required>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label text-white">السرعة</label>
-                            <input type="text" id="pSpeed" class="form-control form-control-dark" value="1M" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label text-white">الصلاحية</label>
-                            <input type="text" id="pValid" class="form-control form-control-dark" value="30 يوم" required>
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label class="form-label fw-bold">السعر ($)</label>
+                                <input type="number" id="pPrice" class="form-control form-control-silver" placeholder="4" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label fw-bold">المدة بالأيام (Day)</label>
+                                <input type="number" id="pDuration" class="form-control form-control-silver" value="30" required>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer border-secondary">
+                    <div class="modal-footer border-top">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
                         <button type="submit" class="btn btn-warning text-dark fw-bold">حفظ الباقة</button>
                     </div>
                 </form>
@@ -548,27 +520,123 @@
         </div>
     </div>
 
-    <!-- Modal تعديل حساب المدير -->
-    <div class="modal fade" id="changeProfileModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-content-dark">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title text-warning fw-bold"><i class="bi bi-shield-lock-fill me-2"></i>إعدادات حساب المدير</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+    <!-- Modal إضافة مستخدم ومشترك (اسم المشترك، اسم المستخدم، الباسورد، الباقة، IP، بداية، انتهاء) -->
+    <div class="modal fade" id="addUserModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content modal-content-silver">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title text-primary fw-bold"><i class="bi bi-person-plus-fill me-2"></i>إضافة مشترك ومستخدم جديد</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form onsubmit="updateProfile(event)">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label text-white">اسم المستخدم</label>
-                            <input type="text" id="profUser" class="form-control form-control-dark" value="admin" required>
+                <form onsubmit="saveUser(event)">
+                    <div class="modal-body p-4">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">اسم المشترك الحقيقي</label>
+                                <input type="text" id="uSubscriberName" class="form-control form-control-silver" placeholder="مثال: أحمد علي" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">اسم المستخدم (Username)</label>
+                                <input type="text" id="uName" class="form-control form-control-silver" placeholder="12648" required>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label text-white">كلمة المرور الجديدة</label>
-                            <input type="password" id="profPass" class="form-control form-control-dark" placeholder="أدخل كلمة مرور جديدة...">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">كلمة المرور (Password)</label>
+                                <input type="text" id="uPass" class="form-control form-control-silver" placeholder="••••••••" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">اختر الباقة</label>
+                                <select id="uPkgSelect" class="form-select form-select-silver" required></select>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">عنوان الـ IP</label>
+                                <input type="text" id="uIp" class="form-control form-control-silver" value="192.168.88.15" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">تاريخ البداية</label>
+                                <input type="date" id="uStartDate" class="form-control form-control-silver" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">تاريخ الانتهاء</label>
+                                <input type="date" id="uExpireDate" class="form-control form-control-silver" required>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer border-secondary">
-                        <button type="submit" class="btn btn-warning text-dark fw-bold">حفظ التغييرات</button>
+                    <div class="modal-footer border-top">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                        <button type="submit" class="btn btn-primary fw-bold">حفظ المشترك</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal ربط راوتر -->
+    <div class="modal fade" id="addRouterModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-silver">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title fw-bold text-info"><i class="bi bi-router-fill me-2"></i>ربط راوتر MikroTik جديد</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form onsubmit="saveRouter(event)">
+                    <div class="modal-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">اسم الراوتر</label>
+                            <input type="text" id="rName" class="form-control form-control-silver" placeholder="ZENAR.net" required>
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-8">
+                                <label class="form-label fw-bold">IP Server</label>
+                                <input type="text" id="rIp" class="form-control form-control-silver" placeholder="198.145.118.146" required>
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label fw-bold">Port</label>
+                                <input type="number" id="rPort" class="form-control form-control-silver" value="1812">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Radius Secret</label>
+                            <input type="password" id="rSecret" class="form-control form-control-silver" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">الموقع</label>
+                            <input type="text" id="rLoc" class="form-control form-control-silver" placeholder="الفرع الأول">
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top">
+                        <button type="submit" class="btn btn-info text-white fw-bold">حفظ السيرفر</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal تعديل اسم المستخدم وكلمة المرور للمدير (تحديث حقيقي بقاعدة البيانات) -->
+    <div class="modal fade" id="changeProfileModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-silver">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title text-dark fw-bold"><i class="bi bi-shield-lock-fill text-warning me-2"></i>تعديل حساب المدير الحقيقي</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form onsubmit="updateProfile(event)">
+                    <div class="modal-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">اسم المستخدم الجديد</label>
+                            <input type="text" id="profUser" class="form-control form-control-silver" value="admin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">كلمة المرور الجديدة</label>
+                            <input type="password" id="profPass" class="form-control form-control-silver" placeholder="أدخل كلمة مرور جديدة...">
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                        <button type="submit" class="btn btn-warning text-dark fw-bold">حفظ التغييرات الآن</button>
                     </div>
                 </form>
             </div>
@@ -577,10 +645,30 @@
 
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Bootstrap 5 Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", loadAllData);
+        document.addEventListener("DOMContentLoaded", function() {
+            // ضبط التواريخ التلقائية في نافذة المشترك
+            const today = new Date().toISOString().split('T')[0];
+            const nextMonth = new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0];
+            document.getElementById('uStartDate').value = today;
+            document.getElementById('uExpireDate').value = nextMonth;
+
+            loadAdminProfile();
+            loadAllData();
+        });
+
+        async function loadAdminProfile() {
+            try {
+                const res = await fetch('/api/admin/current');
+                const data = await res.json();
+                if(data.username) {
+                    document.getElementById('navAdminName').textContent = data.username;
+                    document.getElementById('dropdownUsername').textContent = data.username;
+                    document.getElementById('profUser').value = data.username;
+                }
+            } catch(e) {}
+        }
 
         async function loadAllData() {
             loadRouters();
@@ -596,8 +684,7 @@
             try {
                 const res = await fetch('/api/routers');
                 const data = await res.json();
-                const tbody = document.querySelector('#routersTable tbody');
-                tbody.innerHTML = data.map(r => `<tr><td>#${r.id}</td><td class="fw-bold text-white">${r.name}</td><td><code class="text-info">${r.ip_address}</code></td><td>${r.radius_port}</td><td>${r.location}</td><td><span class="badge bg-success">${r.status}</span></td><td><button class="btn btn-sm btn-outline-danger" onclick="deleteRouter(${r.id})"><i class="bi bi-trash"></i></button></td></tr>`).join('');
+                document.querySelector('#routersTable tbody').innerHTML = data.map(r => `<tr><td>#${r.id}</td><td class="fw-bold">${r.name}</td><td><code class="text-primary">${r.ip_address}</code></td><td>${r.radius_port}</td><td>${r.location}</td><td><span class="badge bg-success">${r.status}</span></td><td><button class="btn btn-sm btn-outline-danger" onclick="deleteRouter(${r.id})"><i class="bi bi-trash"></i></button></td></tr>`).join('');
                 document.getElementById('cardRouters').textContent = data.length;
             } catch(e) {}
         }
@@ -610,12 +697,12 @@
                 body: JSON.stringify({ name: document.getElementById('rName').value, ip_address: document.getElementById('rIp').value, radius_port: document.getElementById('rPort').value, secret: document.getElementById('rSecret').value, location: document.getElementById('rLoc').value })
             });
             bootstrap.Modal.getInstance(document.getElementById('addRouterModal')).hide();
-            showNotification('تم حفظ الراوتر بقاعدة البيانات');
+            showNotification('تم حفظ الراوتر بنجاح بقاعدة البيانات');
             loadRouters();
         }
 
         async function deleteRouter(id) {
-            if(confirm('هل تريد حذف هذا الراوتر؟')) {
+            if(confirm('حذف الراوتر؟')) {
                 await fetch(`/api/routers/${id}`, {method: 'DELETE'});
                 showNotification('تم الحذف');
                 loadRouters();
@@ -626,7 +713,20 @@
             try {
                 const res = await fetch('/api/users');
                 const data = await res.json();
-                document.querySelector('#usersTable tbody').innerHTML = data.map(u => `<tr><td>#${u.id}</td><td class="fw-bold text-white">${u.username}</td><td><span class="badge bg-primary">${u.package_name}</span></td><td>${u.ip_address}</td><td>${u.expire_date}</td><td><span class="badge bg-success">${u.status}</span></td><td><button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${u.id})"><i class="bi bi-trash"></i></button></td></tr>`).join('');
+                document.querySelector('#usersTable tbody').innerHTML = data.map(u => `
+                    <tr>
+                        <td>#${u.id}</td>
+                        <td class="fw-bold text-dark">${u.subscriber_name || 'غير محدد'}</td>
+                        <td><code class="text-primary fw-bold">${u.username}</code></td>
+                        <td><code>${u.password || '••••'}</code></td>
+                        <td><span class="badge bg-primary">${u.package_name}</span></td>
+                        <td>${u.ip_address}</td>
+                        <td class="small">${u.start_date}</td>
+                        <td class="small text-danger fw-bold">${u.expire_date}</td>
+                        <td><span class="badge bg-success">${u.status}</span></td>
+                        <td><button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${u.id})"><i class="bi bi-trash"></i></button></td>
+                    </tr>
+                `).join('');
                 document.getElementById('cardTotalUsers').textContent = data.length;
             } catch(e) {}
         }
@@ -636,17 +736,25 @@
             await fetch('/api/users', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ username: document.getElementById('uName').value, package_name: document.getElementById('uPkgSelect').value })
+                body: JSON.stringify({
+                    subscriber_name: document.getElementById('uSubscriberName').value,
+                    username: document.getElementById('uName').value,
+                    password: document.getElementById('uPass').value,
+                    package_name: document.getElementById('uPkgSelect').value,
+                    ip_address: document.getElementById('uIp').value,
+                    start_date: document.getElementById('uStartDate').value,
+                    expire_date: document.getElementById('uExpireDate').value
+                })
             });
             bootstrap.Modal.getInstance(document.getElementById('addUserModal')).hide();
-            showNotification('تم إضافة المستخدم بنجاح');
+            showNotification('تم إضافة المشترك والمستخدم بنجاح');
             loadUsers();
         }
 
         async function deleteUser(id) {
-            if(confirm('حذف هذا المستخدم؟')) {
+            if(confirm('حذف المشترك والمستخدم؟')) {
                 await fetch(`/api/users/${id}`, {method: 'DELETE'});
-                showNotification('تم الحذف');
+                showNotification('تم الحذف بنجاح');
                 loadUsers();
             }
         }
@@ -655,15 +763,26 @@
             try {
                 const res = await fetch('/api/packages');
                 const data = await res.json();
-                document.getElementById('packagesContainer').innerHTML = data.map(p => `<div class="col-md-4"><div class="card bg-dark border-secondary p-3 text-center"><h5 class="fw-bold text-warning">${p.name}</h5><h2 class="fw-bold text-white my-2">${p.price}$</h2><p class="text-muted small">السرعة: ${p.speed} | الصلاحية: ${p.validity}</p></div></div>`).join('');
-                document.getElementById('cardPackages').textContent = data.length;
                 
-                // ملء القائمة المنسدلة للباقات في نافذة إضافة مستخدم
+                document.getElementById('packagesContainer').innerHTML = data.map(p => `
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm p-3 text-center rounded-3 bg-white">
+                            <h5 class="fw-bold text-primary">${p.name}</h5>
+                            <h2 class="fw-bold text-dark my-2">${p.price}$</h2>
+                            <p class="text-muted small mb-1">تنزيل: <strong>${p.download_speed}</strong> | تحميل: <strong>${p.upload_speed}</strong></p>
+                            <span class="badge bg-secondary m-auto px-3 py-1">المدة: ${p.duration_days} يوم</span>
+                        </div>
+                    </div>
+                `).join('');
+
+                document.getElementById('cardPackages').textContent = data.length;
+
+                // ملء منسدلة الباقات في نافذة إضافة مستخدم
                 const select = document.getElementById('uPkgSelect');
                 if (data.length > 0) {
-                    select.innerHTML = data.map(p => `<option value="${p.name}">${p.name} (${p.price}$)</option>`).join('');
+                    select.innerHTML = data.map(p => `<option value="${p.name}">${p.name} (${p.price}$ - ${p.download_speed})</option>`).join('');
                 } else {
-                    select.innerHTML = `<option value="باقة 50 جيجا">باقة 50 جيجا</option>`;
+                    select.innerHTML = `<option value="1m">1m (4$)</option>`;
                 }
             } catch(e) {}
         }
@@ -673,10 +792,16 @@
             await fetch('/api/packages', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ name: document.getElementById('pName').value, price: document.getElementById('pPrice').value, speed: document.getElementById('pSpeed').value, validity: document.getElementById('pValid').value })
+                body: JSON.stringify({
+                    name: document.getElementById('pName').value,
+                    download_speed: document.getElementById('pDownSpeed').value,
+                    upload_speed: document.getElementById('pUpSpeed').value,
+                    price: document.getElementById('pPrice').value,
+                    duration_days: document.getElementById('pDuration').value
+                })
             });
             bootstrap.Modal.getInstance(document.getElementById('addPackageModal')).hide();
-            showNotification('تمت إضافة الباقة بنجاح');
+            showNotification('تم إضافة الباقة بنجاح');
             loadPackages();
         }
 
@@ -684,7 +809,7 @@
             try {
                 const res = await fetch('/api/customers');
                 const data = await res.json();
-                document.querySelector('#customersTable tbody').innerHTML = data.map(c => `<tr><td>#${c.id}</td><td class="fw-bold text-white">${c.name}</td><td>${c.phone}</td><td><span class="badge bg-purple">${c.status}</span></td></tr>`).join('');
+                document.querySelector('#customersTable tbody').innerHTML = data.map(c => `<tr><td>#${c.id}</td><td class="fw-bold">${c.name}</td><td>${c.phone}</td><td><span class="badge bg-primary">${c.status}</span></td></tr>`).join('');
                 document.getElementById('cardCustomers').textContent = data.length;
             } catch(e) {}
         }
@@ -702,7 +827,7 @@
             try {
                 const res = await fetch('/api/sessions');
                 const data = await res.json();
-                document.querySelector('#sessionsTable tbody').innerHTML = data.map(s => `<tr><td class="fw-bold text-white">${s.username}</td><td>${s.mac_address}</td><td>${s.ip_address}</td><td>${s.duration}</td></tr>`).join('');
+                document.querySelector('#sessionsTable tbody').innerHTML = data.map(s => `<tr><td class="fw-bold text-dark">${s.username}</td><td>${s.mac_address}</td><td>${s.ip_address}</td><td>${s.duration}</td></tr>`).join('');
                 document.getElementById('cardActiveSessions').textContent = data.length;
                 document.getElementById('sidebarSessionBadge').textContent = data.length;
             } catch(e) {}
@@ -713,7 +838,7 @@
                 const res = await fetch('/api/payments');
                 const data = await res.json();
                 let total = 0;
-                document.querySelector('#paymentsTable tbody').innerHTML = data.map(p => { total += p.amount; return `<tr><td>#${p.id}</td><td class="fw-bold text-white">${p.customer_name}</td><td class="text-success">${p.amount}$</td><td>${p.date}</td></tr>`; }).join('');
+                document.querySelector('#paymentsTable tbody').innerHTML = data.map(p => { total += p.amount; return `<tr><td>#${p.id}</td><td class="fw-bold">${p.customer_name}</td><td class="text-success fw-bold">${p.amount}$</td><td>${p.date}</td></tr>`; }).join('');
                 document.getElementById('cardRevenue').textContent = `${total} $`;
             } catch(e) {}
         }
@@ -721,15 +846,19 @@
         async function updateProfile(e) {
             e.preventDefault();
             const userVal = document.getElementById('profUser').value;
-            await fetch('/api/profile/update', {
+            const passVal = document.getElementById('profPass').value;
+            
+            const res = await fetch('/api/profile/update', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ username: userVal, password: document.getElementById('profPass').value })
+                body: JSON.stringify({ username: userVal, password: passVal })
             });
-            document.getElementById('navAdminName').textContent = userVal;
-            document.getElementById('dropdownUsername').textContent = userVal;
+            
+            const data = await res.json();
+            document.getElementById('navAdminName').textContent = data.username;
+            document.getElementById('dropdownUsername').textContent = data.username;
             bootstrap.Modal.getInstance(document.getElementById('changeProfileModal')).hide();
-            showNotification('تم تحديث بيانات المدير بنجاح');
+            showNotification(data.message);
         }
 
         function switchSection(name, el) {
@@ -745,14 +874,16 @@
         function showNotification(msg) {
             const c = document.getElementById('toastContainer');
             const tId = 't_' + Date.now();
-            c.insertAdjacentHTML('beforeend', `<div id="${tId}" class="toast bg-success text-white border-0 shadow mb-2"><div class="d-flex"><div class="toast-body fw-bold">${msg}</div><button class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div></div>`);
+            c.insertAdjacentHTML('beforeend', `<div id="${tId}" class="toast bg-dark text-white border-0 shadow mb-2"><div class="d-flex"><div class="toast-body fw-bold">${msg}</div><button class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div></div>`);
             const toast = new bootstrap.Toast(document.getElementById(tId), {delay: 3000});
             toast.show();
         }
 
         function filterTables() {
             const val = document.getElementById('globalSearchInput').value.toLowerCase();
-            document.querySelectorAll('tbody tr').forEach(r => { r.style.display = r.innerText.toLowerCase().includes(val) ? '' : 'none'; });
+            document.querySelectorAll('tbody tr').forEach(r => { 
+                r.style.display = r.innerText.toLowerCase().includes(val) ? '' : 'none'; 
+            });
         }
     </script>
 </body>
