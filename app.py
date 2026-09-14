@@ -300,6 +300,19 @@ def handle_payments():
         db.session.commit()
         return jsonify({'message': 'تم حفظ الدفعة'})
     return jsonify([{'id': p.id, 'customer_name': p.customer_name, 'amount': p.amount, 'date': p.date} for p in Payment.query.all()])
-
+# ==================== API تزامن الميكروتك التلقائي ====================
+@app.route('/api/users/mikrotik-script', methods=['GET'])
+def mikrotik_script():
+    try:
+        users = RadiusUser.query.filter_by(status='مفعل').all()
+        script_lines = ["/ip hotspot user remove [find comment=\"zinar-sync\"];\n"]
+        
+        for u in users:
+            script_lines.append(f'/ip hotspot user add name="{u.username}" password="{u.password}" profile="default" comment="zinar-sync";\n')
+            
+        return "".join(script_lines), 200, {'Content-Type': 'text/plain; charset=utf-8'}
+    except Exception as e:
+        return f"# Error: {str(e)}", 500
+        
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
