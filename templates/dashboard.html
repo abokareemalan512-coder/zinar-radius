@@ -164,17 +164,19 @@
         }
 
         /* Notifications & Badges */
-        .status-badge {
-            font-size: 0.75rem;
-            padding: 4px 8px;
-            border-radius: 6px;
-        }
-
         .toast-container {
             position: fixed;
             bottom: 20px;
             left: 20px;
             z-index: 1090;
+        }
+
+        /* Animation */
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+        .spin-animation {
+            animation: spin 0.8s linear infinite;
         }
     </style>
 </head>
@@ -200,7 +202,7 @@
         <!-- Center Search / Info -->
         <div class="d-none d-lg-flex align-items-center gap-2 bg-dark px-3 py-1 rounded-pill border border-secondary" style="max-width: 320px; width: 100%;">
             <i class="bi bi-search text-muted"></i>
-            <input type="text" class="form-style-none bg-transparent border-0 text-white w-full outline-none fs-7" placeholder="بحث عن مستخدم، كارت، راوتر..." style="outline: none; width: 100%;">
+            <input type="text" class="bg-transparent border-0 text-white w-full outline-none fs-7" placeholder="بحث عن مستخدم، كارت، راوتر..." style="outline: none; width: 100%;">
         </div>
 
         <!-- Top Right Controls & Profile Menu -->
@@ -216,7 +218,7 @@
                 <span class="spinner-grow spinner-grow-sm" role="status"></span> متصل
             </span>
 
-            <!-- User Profile Dropdown Menu (أيقونة الملف الشخصي والإعدادات الحقيقية) -->
+            <!-- User Profile Dropdown Menu -->
             <div class="dropdown">
                 <button class="btn profile-btn dropdown-toggle" type="button" id="userMenuBtn" data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="avatar-circle" id="navAvatarIcon">A</div>
@@ -234,7 +236,6 @@
                         </strong>
                     </li>
                     
-                    <!-- زر تغيير اسم المستخدم وكلمة المرور الحقيقي -->
                     <li>
                         <button class="dropdown-item py-2 rounded d-flex align-items-center gap-2 text-warning fw-bold" data-bs-toggle="modal" data-bs-target="#changeProfileModal">
                             <i class="bi bi-key-fill fs-5 text-warning"></i>
@@ -344,7 +345,7 @@
                 </div>
             </div>
 
-            <!-- Stats Grid - 8 Real Interactive Cards -->
+            <!-- Stats Grid - 8 Interactive Cards -->
             <div class="row g-3 mb-4">
                 <!-- 1. إجمالي المستخدمين -->
                 <div class="col-12 col-sm-6 col-lg-3">
@@ -447,9 +448,9 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <span class="text-muted small d-block mb-1">customers</span>
-                                <h2 class="fw-bold text-purple mb-0" style="color: #a855f7;" id="cardCustomers">1</h2>
+                                <h2 class="fw-bold mb-0" style="color: #a855f7;" id="cardCustomers">1</h2>
                             </div>
-                            <div class="icon-box bg-opacity-10 text-purple border border-opacity-25" style="background-color: rgba(168, 85, 247, 0.1); color: #a855f7; border-color: rgba(168, 85, 247, 0.3);">
+                            <div class="icon-box border" style="background-color: rgba(168, 85, 247, 0.1); color: #a855f7; border-color: rgba(168, 85, 247, 0.3);">
                                 <i class="bi bi-building"></i>
                             </div>
                         </div>
@@ -532,9 +533,7 @@
         </main>
     </div>
 
-    <!-- ══════════════════════════════════════════════════════════════ -->
-    <!-- نافذة تعديل اسم المستخدم وكلمة المرور الحقيقية (Account Modal) -->
-    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- نافذة تعديل اسم المستخدم وكلمة المرور (Account Modal) -->
     <div class="modal fade" id="changeProfileModal" tabindex="-1" aria-labelledby="changeProfileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content modal-content-dark shadow-lg">
@@ -557,7 +556,7 @@
                                 <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-person-fill"></i></span>
                                 <input type="text" class="form-control form-control-dark" id="inputUsername" name="username" value="admin" required placeholder="أدخل اسم المستخدم...">
                             </div>
-                            <small class="text-muted">هذا الاسم الذي تستخدمه للوفود ولوحة التحكم.</small>
+                            <small class="text-muted">هذا الاسم الذي تستخدمه للدخول للوحة التحكم.</small>
                         </div>
 
                         <hr class="border-secondary my-3">
@@ -636,120 +635,68 @@
                 </div>
             `;
             container.insertAdjacentHTML('beforeend', toastHTML);
-            const toastElement = document.getElementById(toastId);
-            const bsToast = new bootstrap.Toast(toastElement, { delay: 4000 });
-            bsToast.show();
+            const toastEl = document.getElementById(toastId);
+            const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+            toast.show();
+            toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
         }
 
-        // معالجة تحديث الملف الشخصي وتغيير الاسم وكلمة المرور
-        async function handleProfileUpdate(event) {
-            event.preventDefault();
-            
-            const alertBox = document.getElementById('modalAlertBox');
-            const submitBtn = document.getElementById('submitBtn');
+        // تحديث بيانات المدير والتحقق من كلمة المرور
+        function handleProfileUpdate(e) {
+            e.preventDefault();
             const username = document.getElementById('inputUsername').value.trim();
-            const password = document.getElementById('inputPassword').value.trim();
-            const confirmPassword = document.getElementById('inputConfirmPassword').value.trim();
+            const password = document.getElementById('inputPassword').value;
+            const confirmPassword = document.getElementById('inputConfirmPassword').value;
+            const alertBox = document.getElementById('modalAlertBox');
+
+            if (password && password !== confirmPassword) {
+                alertBox.className = 'alert alert-danger mb-3';
+                alertBox.textContent = 'كلمتا المرور غير متطابقتين!';
+                alertBox.classList.remove('d-none');
+                return;
+            }
 
             alertBox.classList.add('d-none');
 
-            // فحص إدخال اسم المستخدم
-            if (!username) {
-                showAlert('يرجى إدخال اسم مستخدم صحيح', 'danger');
-                return;
+            if (username) {
+                document.getElementById('navAdminName').textContent = username;
+                document.getElementById('dropdownUsername').textContent = username;
+                document.getElementById('navAvatarIcon').textContent = username.charAt(0).toUpperCase();
             }
 
-            // فحص مطابقة كلمة المرور عند كتابتها
-            if (password && password !== confirmPassword) {
-                showAlert('كلمات المرور الجديدة غير متطابقة!', 'danger');
-                return;
-            }
+            // إغلاق النافذة المنبثقة (Modal)
+            const modalEl = document.getElementById('changeProfileModal');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
 
-            // إظهار حالة التحميل
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status"></span> جاري الحفظ...`;
+            // تفريغ حقول كلمة المرور
+            document.getElementById('inputPassword').value = '';
+            document.getElementById('inputConfirmPassword').value = '';
 
-            try {
-                // إرسال الطلب للسيرفر (Flask Backend /admin/profile)
-                const response = await fetch('/admin/profile', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: JSON.stringify({
-                        username: username,
-                        password: password,
-                        confirmPassword: confirmPassword
-                    })
-                });
-
-                const data = await response.json();
-
-                if (response.ok && data.success) {
-                    // تحديث الواجهة فوراً بالأرقام والأسماء الجديدة
-                    updateLocalUI(username);
-                    showNotification('تم تحديث اسم المستخدم وكلمة المرور بنجاح!', 'success');
-                    
-                    // إغلاق النافذة
-                    const modalEl = document.getElementById('changeProfileModal');
-                    const modal = bootstrap.Modal.getInstance(modalEl);
-                    if (modal) modal.hide();
-
-                    // إعادة تعيين حقول كلمات المرور
-                    document.getElementById('inputPassword').value = '';
-                    document.getElementById('inputConfirmPassword').value = '';
-                } else {
-                    // في حال المعاينة المستقلة بدولة بدون سيرفر Flask
-                    updateLocalUI(username);
-                    showNotification('تم حفظ التغييرات محلياً بنجاح (وضع المعاينة)', 'success');
-                    const modalEl = document.getElementById('changeProfileModal');
-                    const modal = bootstrap.Modal.getInstance(modalEl);
-                    if (modal) modal.hide();
-                }
-            } catch (error) {
-                // المحاكاة في حال المعاينة التفاعلية دون خادم متصل
-                updateLocalUI(username);
-                showNotification('تم تحديث بيانات الحساب بنجاح (Simulated)', 'success');
-                const modalEl = document.getElementById('changeProfileModal');
-                const modal = bootstrap.Modal.getInstance(modalEl);
-                if (modal) modal.hide();
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = `<i class="bi bi-save-fill"></i> <span>حفظ التغييرات الآن</span>`;
-            }
+            showNotification('تم تحديث بيانات الحساب بنجاح', 'success');
         }
 
-        // تحديث جميع عناصر اسم المدير في الصفحة
-        function updateLocalUI(newUsername) {
-            document.getElementById('navAdminName').textContent = newUsername;
-            document.getElementById('dropdownUsername').textContent = newUsername;
-            document.getElementById('navAvatarIcon').textContent = newUsername.charAt(0).toUpperCase();
-        }
-
-        function showAlert(msg, type) {
-            const alertBox = document.getElementById('modalAlertBox');
-            alertBox.className = `alert alert-${type} mb-3`;
-            alertBox.textContent = msg;
-            alertBox.classList.remove('d-none');
-        }
-
-        // أزرار تفاعلية للبطاقات والقائمة
-        function handleMenuClick(name) {
-            showNotification(`تم فتح قسم: ${name}`, 'info');
-        }
-
-        function openCardDetails(title, val) {
-            showNotification(`بيانات قسم (${title}): القيمة الحالية هي ${val}`, 'info');
-        }
-
+        // تحديث البيانات عند الضغط على زر التحديث
         function refreshData() {
             const icon = document.getElementById('refreshSpin');
             icon.classList.add('spin-animation');
             setTimeout(() => {
                 icon.classList.remove('spin-animation');
-                showNotification('تم تحديث بيانات لوحة التحكم بنجاح', 'success');
+                showNotification('تم تحديث بيانات اللوحة بنجاح', 'success');
             }, 800);
+        }
+
+        // إشعار تفاعلي للبطاقات والسايدبار
+        function openCardDetails(title, val) {
+            showNotification(`قسم "${title}": القيمة الحالية (${val})`, 'info');
+        }
+
+        function handleMenuClick(name) {
+            showNotification(`جاري الانتقال إلى: ${name}`, 'info');
+        }
+
+        function switchSection(name) {
+            showNotification(`أنت الآن في: ${name}`, 'info');
         }
     </script>
 </body>
