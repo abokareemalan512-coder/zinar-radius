@@ -7,12 +7,13 @@
 """
 
 import os
+from datetime import datetime, timedelta
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-# إعداد قاعدة البيانات PostgreSQL على Render أو SQLite محلياً
+# إعداد قاعدة البيانات PostgreSQL على Render مع دعم SQLite كبديل محلي
 db_url = os.environ.get('DATABASE_URL', 'sqlite:///zinar_radius.db')
 if db_url.startswith("postgres://"):
     db_url = db_url.replace("postgres://", "postgresql://", 1)
@@ -23,7 +24,8 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'zinar-secret-key-2026-r
 
 db = SQLAlchemy(app)
 
-# === نماذج قاعدة البيانات ===
+# ==================== نماذج قاعدة البيانات ====================
+
 class AdminUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
@@ -38,20 +40,24 @@ class Router(db.Model):
     location = db.Column(db.String(150), default='غير محدد')
     status = db.Column(db.String(20), default='متصل')
 
-class RadiusUser(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), nullable=False)
-    package_name = db.Column(db.String(100), nullable=False)
-    ip_address = db.Column(db.String(45), default='192.168.88.15')
-    expire_date = db.Column(db.String(50), default='2026-12-31')
-    status = db.Column(db.String(20), default='نشط')
-
 class Package(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Float, nullable=False)
-    speed = db.Column(db.String(50), nullable=False)
-    validity = db.Column(db.String(50), nullable=False)
+    download_speed = db.Column(db.String(50), nullable=False) # تنزيل
+    upload_speed = db.Column(db.String(50), nullable=False)   # تحميل
+    duration_days = db.Column(db.Integer, nullable=False)      # المدة بالأيام
+
+class RadiusUser(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    subscriber_name = db.Column(db.String(100), nullable=False) # اسم المشترك
+    username = db.Column(db.String(100), unique=True, nullable=False) # اسم المستخدم
+    password = db.Column(db.String(100), nullable=False) # كلمة المرور
+    package_name = db.Column(db.String(100), nullable=False) # الباقة
+    ip_address = db.Column(db.String(45), default='192.168.88.15') # عنوان IP
+    start_date = db.Column(db.String(50), nullable=False) # تاريخ البداية
+    expire_date = db.Column(db.String(50), nullable=False) # تاريخ الانتهاء
+    status = db.Column(db.String(20), default='نشط')
 
 class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -79,13 +85,15 @@ class Payment(db.Model):
     amount = db.Column(db.Float, nullable=False)
     date = db.Column(db.String(50), nullable=False)
 
+# بناء وتحديث الجداول تلقائياً
 with app.app_context():
     db.create_all()
     if not AdminUser.query.filter_by(username='admin').first():
         db.session.add(AdminUser(username='admin', password='adminpassword123'))
         db.session.commit()
 
-# === المسارات (Routes & APIs) ===
+# ==================== المسارات و APIs ====================
+
 @app.route('/')
 def index():
     return redirect(url_for('dashboard'))
@@ -111,7 +119,33 @@ def logout():
 def dashboard():
     return render_template('dashboard.html')
 
-# === APIs الراوترات ===
+# --- تحديث بيانات حساب المدير في قاعدة البيانات بشكل حقيقي ---
+@app.route('/api/profile/update', methods=['POST'])
+def update_profile():
+    data = request.get_json()
+    new_username = data.get('username', '').strip()
+    new_password = data.get('password', '').strip()
+    
+    admin = AdminUser.query.first()
+    if not admin:
+        admin = AdminUser(username='admin', password='adminpassword123')
+        db.session.add(admin)
+    
+    if new_username:
+        admin.username = new_username
+    if new_password:
+        admin.password = new_password
+        
+    db.session.commit()
+    session['user'] = admin.username
+    return jsonify({'message': 'تم تحديث بيانات حساب المدير في قاعدة البيانات بنجاح', 'username': admin.username})
+
+@app.route('/api/admin/current', methods=['GET'])
+def get_current_admin():
+    admin = AdminUser.query.first()
+    return jsonify({'username': admin.username if admin else 'admin'})
+
+# --- API الراوترات ---
 @app.route('/api/routers', methods=['GET', 'POST'])
 def handle_routers():
     if request.method == 'POST':
@@ -129,24 +163,69 @@ def delete_router(id):
     if r:
         db.session.delete(r)
         db.session.commit()
-    return jsonify({'message': 'تم الحذف'})
+    return jsonify({'message': 'تم حذف الراوتر'})
 
 @app.route('/api/routers/<int:id>/ping', methods=['POST'])
 def ping_router(id):
     r = Router.query.get(id)
     return jsonify({'message': f'تم اختبار الاتصال بنجاح مع {r.name if r else "السيرفر"}'})
 
-# === APIs المستخدمين ===
+# --- API الباقات ---
+@app.route('/api/packages', methods=['GET', 'POST'])
+def handle_packages():
+    if request.method == 'POST':
+        d = request.get_json()
+        p = Package(
+            name=d['name'],
+            price=float(d['price']),
+            download_speed=d['download_speed'],
+            upload_speed=d['upload_speed'],
+            duration_days=int(d['duration_days'])
+        )
+        db.session.add(p)
+        db.session.commit()
+        return jsonify({'message': 'تم إضافة الباقة بنجاح'}), 201
+    items = Package.query.order_by(Package.id.desc()).all()
+    return jsonify([{'id': i.id, 'name': i.name, 'price': i.price, 'download_speed': i.download_speed, 'upload_speed': i.upload_speed, 'duration_days': i.duration_days} for i in items])
+
+@app.route('/api/packages/<int:id>', methods=['DELETE'])
+def delete_package(id):
+    p = Package.query.get(id)
+    if p:
+        db.session.delete(p)
+        db.session.commit()
+    return jsonify({'message': 'تم حذف الباقة'})
+
+# --- API المشتركين والمستخدمين ---
 @app.route('/api/users', methods=['GET', 'POST'])
 def handle_users():
     if request.method == 'POST':
         d = request.get_json()
-        u = RadiusUser(username=d['username'], package_name=d['package_name'], expire_date=d.get('expire_date', '2026-12-31'))
+        u = RadiusUser(
+            subscriber_name=d['subscriber_name'],
+            username=d['username'],
+            password=d['password'],
+            package_name=d['package_name'],
+            ip_address=d.get('ip_address', '192.168.88.15'),
+            start_date=d.get('start_date', datetime.now().strftime('%Y-%m-%d')),
+            expire_date=d.get('expire_date', (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d'))
+        )
         db.session.add(u)
         db.session.commit()
-        return jsonify({'message': 'تم إضافة المستخدم بنجاح'}), 201
+        return jsonify({'message': 'تم إضافة المشترك والمستخدم بنجاح'}), 201
+    
     items = RadiusUser.query.order_by(RadiusUser.id.desc()).all()
-    return jsonify([{'id': i.id, 'username': i.username, 'package_name': i.package_name, 'ip_address': i.ip_address, 'expire_date': i.expire_date, 'status': i.status} for i in items])
+    return jsonify([{
+        'id': i.id,
+        'subscriber_name': i.subscriber_name,
+        'username': i.username,
+        'password': i.password,
+        'package_name': i.package_name,
+        'ip_address': i.ip_address,
+        'start_date': i.start_date,
+        'expire_date': i.expire_date,
+        'status': i.status
+    } for i in items])
 
 @app.route('/api/users/<int:id>', methods=['DELETE'])
 def delete_user(id):
@@ -154,21 +233,9 @@ def delete_user(id):
     if u:
         db.session.delete(u)
         db.session.commit()
-    return jsonify({'message': 'تم حذف المستخدم'})
+    return jsonify({'message': 'تم حذف المشترك'})
 
-# === APIs الباقات ===
-@app.route('/api/packages', methods=['GET', 'POST'])
-def handle_packages():
-    if request.method == 'POST':
-        d = request.get_json()
-        p = Package(name=d['name'], price=float(d['price']), speed=d['speed'], validity=d['validity'])
-        db.session.add(p)
-        db.session.commit()
-        return jsonify({'message': 'تم إضافة الباقة بنجاح'}), 201
-    items = Package.query.all()
-    return jsonify([{'id': i.id, 'name': i.name, 'price': i.price, 'speed': i.speed, 'validity': i.validity} for i in items])
-
-# === APIs العملاء، الكوبونات، الجلسات، المدفوعات ===
+# --- APIs بقية الخيارات ---
 @app.route('/api/customers', methods=['GET', 'POST'])
 def handle_customers():
     if request.method == 'POST':
@@ -195,21 +262,10 @@ def get_sessions():
 def handle_payments():
     if request.method == 'POST':
         d = request.get_json()
-        db.session.add(Payment(customer_name=d['customer_name'], amount=float(d['amount']), date=d.get('date', '2026-09-14')))
+        db.session.add(Payment(customer_name=d['customer_name'], amount=float(d['amount']), date=d.get('date', datetime.now().strftime('%Y-%m-%d'))))
         db.session.commit()
-        return jsonify({'message': 'تم تسليجل الدفعة'})
+        return jsonify({'message': 'تم تسجيل الدفعة'})
     return jsonify([{'id': i.id, 'customer_name': i.customer_name, 'amount': i.amount, 'date': i.date} for i in Payment.query.all()])
-
-@app.route('/api/profile/update', methods=['POST'])
-def update_profile():
-    d = request.get_json()
-    user = AdminUser.query.first()
-    if user:
-        user.username = d['username']
-        if d.get('password'):
-            user.password = d['password']
-        db.session.commit()
-    return jsonify({'message': 'تم تحديث البيانات بنجاح'})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
