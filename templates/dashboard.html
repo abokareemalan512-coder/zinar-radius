@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة زينار - Zinar Radius Dashboard</title>
-    <!-- Bootstrap 5 CSS -->
+    <!-- Bootstrap 5 CSS RTL -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
+    <!-- Bootstrap Icons & FontAwesome -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Google Font Cairo -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -21,8 +20,6 @@
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent-blue: #3b82f6;
-            --accent-green: #10b981;
-            --accent-orange: #f59e0b;
         }
 
         body {
@@ -32,7 +29,6 @@
             min-height: 100vh;
         }
 
-        /* Top Navbar */
         .top-navbar {
             background-color: var(--card-dark);
             border-bottom: 1px solid var(--border-color);
@@ -42,7 +38,6 @@
             z-index: 1030;
         }
 
-        /* Sidebar Styling */
         .sidebar {
             width: 260px;
             background-color: var(--card-dark);
@@ -61,9 +56,9 @@
             text-decoration: none;
             border-radius: 8px;
             margin-bottom: 4px;
-            transition: all 0.2s ease;
             font-weight: 600;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .nav-link-item:hover, .nav-link-item.active {
@@ -71,31 +66,18 @@
             color: #60a5fa;
         }
 
-        /* Stat Cards */
         .stat-card {
             background-color: var(--card-dark);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 1.25rem;
-            transition: transform 0.2s ease, border-color 0.2s ease;
             cursor: pointer;
+            transition: transform 0.2s ease;
         }
 
         .stat-card:hover {
             transform: translateY(-3px);
             border-color: var(--accent-blue);
-        }
-
-        .stat-card .card-title-text {
-            color: var(--text-muted);
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-
-        .stat-card .card-value-text {
-            color: var(--text-main);
-            font-size: 1.75rem;
-            font-weight: 800;
         }
 
         .icon-box {
@@ -108,31 +90,6 @@
             font-size: 1.35rem;
         }
 
-        /* Profile Button */
-        .profile-btn {
-            background: #334155;
-            border: 1px solid #475569;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .avatar-circle {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-        }
-
-        /* Toast notifications fixing */
         .toast-container {
             position: fixed;
             bottom: 20px;
@@ -140,20 +97,11 @@
             z-index: 9999;
             max-width: 320px;
         }
-
-        .content-section {
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
 </head>
 <body>
 
-    <!-- Navbar Header -->
+    <!-- الهيدر العلوي -->
     <nav class="top-navbar d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-3">
             <button class="btn btn-outline-secondary d-md-none text-light" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
@@ -170,52 +118,29 @@
             </div>
         </div>
 
-        <!-- Global Search -->
+        <!-- البحث السريع -->
         <div class="d-none d-lg-flex align-items-center gap-2 bg-dark px-3 py-1 rounded-pill border border-secondary" style="max-width: 360px; width: 100%;">
             <i class="bi bi-search text-muted"></i>
-            <input type="text" id="globalSearchInput" class="bg-transparent border-0 text-white w-100 outline-none fs-7" placeholder="بحث عن مستخدم، كارت، راوتر..." onkeyup="filterTables()">
+            <input type="text" id="globalSearchInput" class="bg-transparent border-0 text-white w-100 outline-none fs-7" placeholder="بحث عن مستخدم، راوتر..." onkeyup="filterTables()">
         </div>
 
-        <!-- Controls & Profile Menu -->
         <div class="d-flex align-items-center gap-3">
-            <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-outline-secondary text-white btn-sm px-2">EN</button>
-                <button type="button" class="btn btn-primary btn-sm px-2 fw-bold">عربي</button>
-            </div>
-
             <span class="badge bg-success-subtle text-success border border-success px-2 py-1 rounded-pill d-none d-sm-inline-flex align-items-center gap-1">
                 <span class="spinner-grow spinner-grow-sm"></span> متصل
             </span>
-
-            <!-- Profile Dropdown -->
             <div class="dropdown">
-                <button class="btn profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    <div class="avatar-circle" id="navAvatarIcon">A</div>
-                    <div class="text-end d-none d-sm-block">
-                        <span class="d-block fw-bold lh-1" id="navAdminName">admin</span>
-                        <small class="text-info" style="font-size: 0.7rem;">مدير النظام</small>
-                    </div>
+                <button class="btn btn-secondary btn-sm dropdown-toggle rounded-pill" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-person-circle me-1"></i> <span id="navAdminName">admin</span>
                 </button>
-                
-                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg p-2 mt-2 border-secondary">
-                    <li class="px-3 py-2 border-bottom border-secondary mb-1">
-                        <small class="text-muted d-block">الحساب النشط</small>
-                        <strong class="text-warning fs-6" id="dropdownUsername">admin</strong>
-                    </li>
-                    <li>
-                        <button class="dropdown-item py-2 rounded d-flex align-items-center gap-2 text-warning fw-bold" data-bs-toggle="modal" data-bs-target="#changeProfileModal">
-                            <i class="bi bi-key-fill text-warning"></i>
-                            <span>تغيير الاسم وكلمة المرور</span>
-                        </button>
-                    </li>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow">
+                    <li><a class="dropdown-item text-danger fw-bold" href="/logout"><i class="bi bi-box-arrow-right me-2"></i>تسجيل الخروج</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Main Container -->
     <div class="d-flex">
-        <!-- Sidebar Navigation -->
+        <!-- القائمة الجانبية -->
         <aside class="sidebar collapse d-md-block" id="sidebarMenu">
             <small class="text-uppercase text-muted fw-bold px-2" style="font-size: 0.7rem;">القائمة الرئيسية</small>
             
@@ -225,272 +150,55 @@
                     <span>لوحة التحكم</span>
                 </a>
                 
+                <a class="nav-link-item" onclick="switchTab('routers-section', this)">
+                    <i class="bi bi-router-fill"></i>
+                    <span>الراوترات السيرفرية</span>
+                    <span class="badge bg-info ms-auto" id="routerCountBadge">0</span>
+                </a>
+
                 <a class="nav-link-item" onclick="switchTab('users-section', this)">
                     <i class="bi bi-people-fill"></i>
                     <span>المستخدمون</span>
-                    <span class="badge bg-primary ms-auto" id="userCountBadge">3</span>
                 </a>
-                
-                <a class="nav-link-item" onclick="switchTab('sessions-section', this)">
-                    <i class="bi bi-wifi"></i>
-                    <span>الجلسات النشطة</span>
-                    <span class="badge bg-success ms-auto">2</span>
-                </a>
-                
-                <a class="nav-link-item" onclick="switchTab('routers-section', this)">
-                    <i class="bi bi-router-fill"></i>
-                    <span>الراوترات</span>
-                    <span class="badge bg-info ms-auto" id="routerCountBadge">1</span>
-                </a>
-                
-                <a class="nav-link-item" onclick="switchTab('packages-section', this)">
-                    <i class="bi bi-box-seam"></i>
-                    <span>الباقات</span>
-                </a>
-                
-                <a class="nav-link-item" onclick="switchTab('vouchers-section', this)">
-                    <i class="bi bi-ticket-perforated"></i>
-                    <span>الكروت / الكوبونات</span>
-                </a>
-            </div>
-
-            <div class="pt-3 mt-4 border-top border-secondary">
-                <button class="nav-link-item text-warning w-100 border-0 bg-transparent text-start" data-bs-toggle="modal" data-bs-target="#changeProfileModal">
-                    <i class="bi bi-shield-lock-fill text-warning"></i>
-                    <span>إعدادات حساب المدير</span>
-                </button>
             </div>
         </aside>
 
-        <!-- Main Content Area -->
+        <!-- المحتوى الرئيسي -->
         <main class="flex-grow-1 p-3 p-md-4">
             
-            <!-- SECTION 1: DASHBOARD -->
+            <!-- قسم لوحة التحكم -->
             <div id="dashboard-section" class="content-section">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <div>
                         <h3 class="fw-bold text-white mb-1">لوحة التحكم</h3>
-                        <p class="text-muted mb-0 small">ملخص مباشر لشريحة المستخديمن والشبكة.</p>
+                        <p class="text-muted mb-0 small">حالة المنظومة والراوترات المربوطة حالياً.</p>
                     </div>
-                    <button class="btn btn-outline-light btn-sm rounded-3" onclick="showNotification('تم تحديث البيانات', 'success')">
+                    <button class="btn btn-outline-light btn-sm rounded-3" onclick="loadRouters(); showNotification('تم تحديث البيانات', 'success')">
                         <i class="bi bi-arrow-clockwise"></i> تحديث
                     </button>
                 </div>
 
-                <!-- Stats Grid -->
                 <div class="row g-3 mb-4">
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="stat-card" onclick="switchTabById('users-section')">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                    <span class="card-title-text d-block mb-1">إجمالي المستخدمين</span>
-                                    <div class="card-value-text">3</div>
-                                </div>
-                                <div class="icon-box bg-primary bg-opacity-25 text-primary">
-                                    <i class="bi bi-people-fill"></i>
-                                </div>
-                            </div>
-                            <div class="mt-3 pt-2 border-top border-secondary small d-flex justify-content-between text-muted">
-                                <span>الحالة</span>
-                                <span class="text-success"><i class="bi bi-check-circle-fill"></i> نشط</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="stat-card" onclick="switchTabById('sessions-section')">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                    <span class="card-title-text d-block mb-1">الجلسات النشطة</span>
-                                    <div class="card-value-text text-success">2</div>
-                                </div>
-                                <div class="icon-box bg-success bg-opacity-25 text-success">
-                                    <i class="bi bi-wifi"></i>
-                                </div>
-                            </div>
-                            <div class="mt-3 pt-2 border-top border-secondary small d-flex justify-content-between text-muted">
-                                <span>المتواجدون الآن</span>
-                                <span class="badge bg-success">2 أونلاين</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="stat-card" onclick="switchTabById('packages-section')">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                    <span class="card-title-text d-block mb-1">الباقات المتاحة</span>
-                                    <div class="card-value-text text-warning">4</div>
-                                </div>
-                                <div class="icon-box bg-warning bg-opacity-25 text-warning">
-                                    <i class="bi bi-box-seam"></i>
-                                </div>
-                            </div>
-                            <div class="mt-3 pt-2 border-top border-secondary small d-flex justify-content-between text-muted">
-                                <span>الباقات النشطة</span>
-                                <span class="text-warning">4 باقات</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="col-12 col-sm-6 col-lg-4">
                         <div class="stat-card" onclick="switchTabById('routers-section')">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
-                                    <span class="card-title-text d-block mb-1">الراوترات المربوطة</span>
-                                    <div class="card-value-text text-info" id="dashRouterCount">1</div>
+                                    <span class="text-muted small d-block mb-1">الراوترات الفعلية المخزنة</span>
+                                    <div class="fs-2 fw-bold text-info" id="dashRouterCount">0</div>
                                 </div>
                                 <div class="icon-box bg-info bg-opacity-25 text-info">
                                     <i class="bi bi-router-fill"></i>
                                 </div>
                             </div>
-                            <div class="mt-3 pt-2 border-top border-secondary small d-flex justify-content-between text-muted">
-                                <span>أجهزة Mikrotik</span>
-                                <span class="text-info">متصل</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Live Info Table -->
-                <div class="card bg-dark border-secondary">
-                    <div class="card-header border-secondary fw-bold text-white d-flex align-items-center gap-2">
-                        <i class="bi bi-activity text-primary"></i> أحدث الأنشطة على الشبكة
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-dark table-hover mb-0 align-middle">
-                                <thead>
-                                    <tr>
-                                        <th>المستخدم</th>
-                                        <th>الراوتر</th>
-                                        <th>IP Address</th>
-                                        <th>الوقت</th>
-                                        <th>الحالة</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong class="text-white">أحمد علي</strong></td>
-                                        <td>Main MikroTik Router</td>
-                                        <td>192.168.88.15</td>
-                                        <td>منذ 5 دقائق</td>
-                                        <td><span class="badge bg-success">متصل</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong class="text-white">سارة محمود</strong></td>
-                                        <td>Main MikroTik Router</td>
-                                        <td>192.168.88.22</td>
-                                        <td>منذ 12 دقيقة</td>
-                                        <td><span class="badge bg-success">متصل</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- SECTION 2: USERS -->
-            <div id="users-section" class="content-section d-none">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold text-white m-0"><i class="bi bi-people-fill text-primary"></i> إدارة المستخدمين</h4>
-                    <button class="btn btn-primary btn-sm rounded-3 fw-bold" onclick="addNewUserPrompt()">
-                        <i class="bi bi-person-plus-fill"></i> إضافة مستخدم جديد
-                    </button>
-                </div>
-                
-                <div class="card bg-dark border-secondary">
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-dark table-hover mb-0 align-middle" id="usersTable">
-                                <thead>
-                                    <tr>
-                                        <th>اسم المستخدم</th>
-                                        <th>الباقة</th>
-                                        <th>عنوان IP</th>
-                                        <th>ينتهي في</th>
-                                        <th>التحكم</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="fw-bold text-white">أحمد علي</td>
-                                        <td><span class="badge bg-primary">باقة 50 جيجا</span></td>
-                                        <td>192.168.88.15</td>
-                                        <td>2026-10-01</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteRow(this)"><i class="bi bi-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold text-white">سارة محمود</td>
-                                        <td><span class="badge bg-warning text-dark">باقة غير محدودة</span></td>
-                                        <td>192.168.88.22</td>
-                                        <td>2026-09-25</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteRow(this)"><i class="bi bi-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold text-white">خالد العمر</td>
-                                        <td><span class="badge bg-secondary">باقة يومية</span></td>
-                                        <td>-</td>
-                                        <td>منتهي</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteRow(this)"><i class="bi bi-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECTION 3: SESSIONS -->
-            <div id="sessions-section" class="content-section d-none">
-                <h4 class="fw-bold text-white mb-4"><i class="bi bi-wifi text-success"></i> الجلسات النشطة (Active Sessions)</h4>
-                <div class="card bg-dark border-secondary">
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-dark table-hover mb-0 align-middle" id="sessionsTable">
-                                <thead>
-                                    <tr>
-                                        <th>المستخدم</th>
-                                        <th>MAC Address</th>
-                                        <th>IP Address</th>
-                                        <th>مدة الاتصال</th>
-                                        <th>إجراء</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="fw-bold text-white">أحمد علي</td>
-                                        <td>AA:BB:CC:11:22:33</td>
-                                        <td>192.168.88.15</td>
-                                        <td>01:45:20</td>
-                                        <td><button class="btn btn-sm btn-danger" onclick="disconnectSession(this)">قطع الاتصال</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold text-white">سارة محمود</td>
-                                        <td>DD:EE:FF:44:55:66</td>
-                                        <td>192.168.88.22</td>
-                                        <td>00:12:05</td>
-                                        <td><button class="btn btn-sm btn-danger" onclick="disconnectSession(this)">قطع الاتصال</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECTION 4: ROUTERS (الراوترات المربوطة) -->
+            <!-- قسم الراوترات المربوطة -->
             <div id="routers-section" class="content-section d-none">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold text-white m-0"><i class="bi bi-router-fill text-info"></i> الراوترات المربوطة</h4>
-                    <!-- زر فتح نافذة إضافة الراوتر Modal -->
+                    <h4 class="fw-bold text-white m-0"><i class="bi bi-router-fill text-info me-2"></i> الراوترات والسيرفرات المربوطة</h4>
                     <button class="btn btn-info btn-sm text-dark fw-bold rounded-3" data-bs-toggle="modal" data-bs-target="#addRouterModal">
                         <i class="bi bi-plus-circle-fill"></i> ربط راوتر جديد
                     </button>
@@ -502,28 +210,17 @@
                             <table class="table table-dark table-hover align-middle mb-0" id="routersTable">
                                 <thead>
                                     <tr>
+                                        <th>ID</th>
                                         <th>اسم الراوتر</th>
                                         <th>IP Server</th>
+                                        <th>RADIUS Port</th>
                                         <th>الموقع</th>
-                                        <th>بورت RADIUS</th>
                                         <th>الحالة</th>
                                         <th>الإجراءات</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="fw-bold text-white">Main MikroTik Router</td>
-                                        <td>10.0.0.1</td>
-                                        <td>المركز الرئيسي</td>
-                                        <td>1812</td>
-                                        <td><span class="badge bg-success"><i class="bi bi-check-circle-fill"></i> متصل بنجاح</span></td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm">
-                                                <button class="btn btn-outline-info" title="اختبار الاتصال" onclick="pingRouter('Main MikroTik Router')"><i class="bi bi-lightning-charge"></i></button>
-                                                <button class="btn btn-outline-danger" title="حذف" onclick="deleteRow(this)"><i class="bi bi-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <!-- يتم تحميل الصفوف تلقائياً عبر API -->
                                 </tbody>
                             </table>
                         </div>
@@ -531,129 +228,168 @@
                 </div>
             </div>
 
-            <!-- SECTION 5: PACKAGES -->
-            <div id="packages-section" class="content-section d-none">
-                <h4 class="fw-bold text-white mb-4"><i class="bi bi-box-seam text-warning"></i> الباقات المتاحة</h4>
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <div class="card bg-dark border-secondary p-3 text-center">
-                            <h5 class="fw-bold text-warning">باقة 50 جيجا</h5>
-                            <h2 class="fw-bold text-white my-2">15$</h2>
-                            <p class="text-muted small">السرعة: 10 ميجا | الصلاحية: شهر</p>
-                            <button class="btn btn-outline-warning btn-sm mt-2">تعديل الباقة</button>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card bg-dark border-secondary p-3 text-center">
-                            <h5 class="fw-bold text-success">الباقة المفتوحة</h5>
-                            <h2 class="fw-bold text-white my-2">35$</h2>
-                            <p class="text-muted small">السرعة: مفتوحة | الصلاحية: شهر</p>
-                            <button class="btn btn-outline-success btn-sm mt-2">تعديل الباقة</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECTION 6: VOUCHERS -->
-            <div id="vouchers-section" class="content-section d-none">
-                <h4 class="fw-bold text-white mb-4"><i class="bi bi-ticket-perforated text-primary"></i> إدارة الكروت والكوبونات</h4>
-                <div class="alert alert-info border-info bg-dark text-info">
-                    <i class="bi bi-info-circle-fill me-2"></i> لا توجد كروت جديدة مولّدة حالياً. يمكنك توليد كروت طباعة جديدة بنقرة زر.
-                </div>
+            <!-- قسم المستخدمين -->
+            <div id="users-section" class="content-section d-none">
+                <h4 class="fw-bold text-white mb-4"><i class="bi bi-people-fill text-primary"></i> إدارة المشتركين</h4>
+                <p class="text-muted">قائمة المستخدمين المربوطة بحسابات RADIUS.</p>
             </div>
 
         </main>
     </div>
 
-    <!-- MODAL 1: نافذة ربط راوتر MikroTik جديد -->
+    <!-- نافذة إضافة راوتر جديد Modal -->
     <div class="modal fade" id="addRouterModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-dark border-secondary text-white">
                 <div class="modal-header border-secondary">
-                    <h5 class="modal-title fw-bold text-info d-flex align-items-center gap-2">
-                        <i class="bi bi-router-fill"></i> ربط راوتر MikroTik جديد
-                    </h5>
+                    <h5 class="modal-title fw-bold text-info"><i class="bi bi-router-fill me-2"></i>ربط راوتر / سيرفر جديد</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-
-                <form onsubmit="handleAddRouter(event)">
+                <form id="routerForm" onsubmit="saveRouterToDatabase(event)">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label text-light fw-bold">اسم الراوتر</label>
-                            <input type="text" class="form-control bg-dark text-white border-secondary" id="routerName" placeholder="مثال: راوتر الفرع الشمالي" required>
+                            <label class="form-label fw-bold">اسم الراوتر</label>
+                            <input type="text" class="form-control bg-dark text-white border-secondary" id="routerName" placeholder="مثال: ZENAR.net" required>
                         </div>
                         <div class="row g-2 mb-3">
                             <div class="col-8">
-                                <label class="form-label text-light fw-bold">عنوان IP Server</label>
-                                <input type="text" class="form-control bg-dark text-white border-secondary" id="routerIp" placeholder="192.168.1.1" required>
+                                <label class="form-label fw-bold">عنوان IP Server</label>
+                                <input type="text" class="form-control bg-dark text-white border-secondary" id="routerIp" placeholder="198.145.118.146" required>
                             </div>
                             <div class="col-4">
-                                <label class="form-label text-light fw-bold">RADIUS Port</label>
+                                <label class="form-label fw-bold">RADIUS Port</label>
                                 <input type="number" class="form-control bg-dark text-white border-secondary" id="routerPort" value="1812" required>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label text-light fw-bold">كلمة سر السيرفر (Radius Secret)</label>
+                            <label class="form-label fw-bold">كلمة سر السيرفر (Radius Secret)</label>
                             <input type="password" class="form-control bg-dark text-white border-secondary" id="routerSecret" placeholder="••••••••" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label text-light fw-bold">الموقع / الملاحظات</label>
-                            <input type="text" class="form-control bg-dark text-white border-secondary" id="routerLocation" placeholder="مثال: الفرع الثاني">
+                            <label class="form-label fw-bold">الموقع / الملاحظات</label>
+                            <input type="text" class="form-control bg-dark text-white border-secondary" id="routerLocation" placeholder="مثال: الفرع الأول">
                         </div>
                     </div>
                     <div class="modal-footer border-secondary">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                        <button type="submit" class="btn btn-info fw-bold text-dark">حفظ واختبار الاتصال</button>
+                        <button type="submit" class="btn btn-info fw-bold text-dark">حفظ السيرفر بقاعدة البيانات</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- MODAL 2: نافذة إعدادات المدير -->
-    <div class="modal fade" id="changeProfileModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark border-secondary text-white">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title fw-bold text-warning d-flex align-items-center gap-2">
-                        <i class="bi bi-shield-lock-fill"></i> إعدادات مدير النظام
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-
-                <form onsubmit="handleProfileUpdate(event)">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label text-light fw-bold">اسم المستخدم الجديد</label>
-                            <input type="text" class="form-control bg-dark text-white border-secondary" id="inputUsername" value="admin" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label text-light fw-bold">كلمة المرور الجديدة</label>
-                            <input type="password" class="form-control bg-dark text-white border-secondary" id="inputPassword" placeholder="اتركه فارغاً إن لم ترد التغيير">
-                        </div>
-                    </div>
-                    <div class="modal-footer border-secondary">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                        <button type="submit" class="btn btn-warning fw-bold text-dark">حفظ التغييرات</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notifications Container -->
+    <!-- Toast Notifications -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- JS Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Switch Navigation Tabs
+        document.addEventListener("DOMContentLoaded", function() {
+            loadRouters();
+        });
+
+        // جلب قائمة الراوترات الحقيقية من قاعدة البيانات
+        async function loadRouters() {
+            try {
+                const res = await fetch('/api/routers');
+                const routers = await res.json();
+                const tbody = document.querySelector('#routersTable tbody');
+                tbody.innerHTML = '';
+
+                if (routers.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted py-4">لا توجد راوترات مضافة حتى الآن. اضغط على "ربط راوتر جديد" للإضافة.</td></tr>';
+                } else {
+                    routers.forEach(r => {
+                        tbody.innerHTML += `
+                            <tr>
+                                <td>#${r.id}</td>
+                                <td class="fw-bold text-white">${r.name}</td>
+                                <td><code class="text-info">${r.ip_address}</code></td>
+                                <td>${r.radius_port}</td>
+                                <td>${r.location}</td>
+                                <td><span class="badge bg-success"><i class="bi bi-check-circle-fill me-1"></i>${r.status}</span></td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-info" title="اختبار الاتصال" onclick="pingRouter(${r.id}, '${r.name}')"><i class="bi bi-lightning-charge"></i></button>
+                                        <button class="btn btn-outline-danger" title="حذف" onclick="deleteRouter(${r.id})"><i class="bi bi-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
+
+                document.getElementById('routerCountBadge').textContent = routers.length;
+                document.getElementById('dashRouterCount').textContent = routers.length;
+            } catch (err) {
+                console.error("خطأ في جلب الراوترات:", err);
+            }
+        }
+
+        // حفظ راوتر جديد في قاعدة البيانات بشكل دائم
+        async function saveRouterToDatabase(e) {
+            e.preventDefault();
+            const payload = {
+                name: document.getElementById('routerName').value.trim(),
+                ip_address: document.getElementById('routerIp').value.trim(),
+                radius_port: document.getElementById('routerPort').value.trim(),
+                secret: document.getElementById('routerSecret').value.trim(),
+                location: document.getElementById('routerLocation').value.trim() || 'غير محدد'
+            };
+
+            try {
+                const res = await fetch('/api/routers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.ok) {
+                    bootstrap.Modal.getInstance(document.getElementById('addRouterModal')).hide();
+                    document.getElementById('routerForm').reset();
+                    showNotification('تم حفظ السيرفر في قاعدة البيانات بنجاح!', 'success');
+                    loadRouters(); // إعادة تحميل القائمة المحدثة
+                } else {
+                    showNotification('حدث خطأ أثناء حفظ الراوتر', 'danger');
+                }
+            } catch (err) {
+                showNotification('فشل الاتصال بالسيرفر', 'danger');
+            }
+        }
+
+        // حذف راوتر من قاعدة البيانات
+        async function deleteRouter(id) {
+            if (confirm('هل أنت تأكد من حذف هذا السيرفر نهائياً؟')) {
+                try {
+                    const res = await fetch(`/api/routers/${id}`, { method: 'DELETE' });
+                    if (res.ok) {
+                        showNotification('تم حذف السيرفر بنجاح', 'success');
+                        loadRouters();
+                    }
+                } catch (err) {
+                    showNotification('حدث خطأ أثناء الحذف', 'danger');
+                }
+            }
+        }
+
+        // اختبار الاتصال
+        async function pingRouter(id, name) {
+            showNotification(`جاري اختبار الاتصال مع ${name}...`, 'info');
+            try {
+                const res = await fetch(`/api/routers/${id}/ping`, { method: 'POST' });
+                const data = await res.json();
+                showNotification(data.message, 'success');
+            } catch (err) {
+                showNotification(`فشل الاتصال مع ${name}`, 'danger');
+            }
+        }
+
+        // التنقل بين الأقسام
         function switchTab(sectionId, element) {
             document.querySelectorAll('.content-section').forEach(sec => sec.classList.add('d-none'));
             document.querySelectorAll('.nav-link-item').forEach(nav => nav.classList.remove('active'));
-            
             document.getElementById(sectionId).classList.remove('d-none');
-            if(element) element.classList.add('active');
+            if (element) element.classList.add('active');
         }
 
         function switchTabById(sectionId) {
@@ -661,123 +397,22 @@
             document.getElementById(sectionId).classList.remove('d-none');
         }
 
-        // Show Toast Notifications
         function showNotification(msg, type = 'success') {
             const container = document.getElementById('toastContainer');
-            const bgClass = type === 'success' ? 'bg-success' : type === 'info' ? 'bg-info text-dark' : 'bg-primary';
-            
+            const bgClass = type === 'success' ? 'bg-success' : type === 'danger' ? 'bg-danger' : 'bg-info text-dark';
             const toastEl = document.createElement('div');
             toastEl.className = `toast align-items-center text-white ${bgClass} border-0 mb-2 shadow`;
-            toastEl.setAttribute('role', 'alert');
-            toastEl.innerHTML = `
-                <div class="d-flex">
-                    <div class="toast-body fw-bold">${msg}</div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-                </div>
-            `;
+            toastEl.innerHTML = `<div class="d-flex"><div class="toast-body fw-bold">${msg}</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>`;
             container.appendChild(toastEl);
             const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
             toast.show();
             toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
         }
 
-        // Action: Add New Router
-        function handleAddRouter(e) {
-            e.preventDefault();
-            const name = document.getElementById('routerName').value.trim();
-            const ip = document.getElementById('routerIp').value.trim();
-            const port = document.getElementById('routerPort').value.trim();
-            const location = document.getElementById('routerLocation').value.trim() || 'غير محدد';
-
-            if (name && ip) {
-                const tbody = document.getElementById('routersTable').querySelector('tbody');
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td class="fw-bold text-white">${name}</td>
-                    <td>${ip}</td>
-                    <td>${location}</td>
-                    <td>${port}</td>
-                    <td><span class="badge bg-success"><i class="bi bi-check-circle-fill"></i> متصل بنجاح</span></td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-outline-info" title="اختبار الاتصال" onclick="pingRouter('${name}')"><i class="bi bi-lightning-charge"></i></button>
-                            <button class="btn btn-outline-danger" title="حذف" onclick="deleteRow(this)"><i class="bi bi-trash"></i></button>
-                        </div>
-                    </td>
-                `;
-
-                // Update counter
-                const countBadge = document.getElementById('routerCountBadge');
-                const dashCount = document.getElementById('dashRouterCount');
-                const currentCount = parseInt(countBadge.textContent || '0') + 1;
-                countBadge.textContent = currentCount;
-                dashCount.textContent = currentCount;
-
-                // Close modal and reset form
-                bootstrap.Modal.getInstance(document.getElementById('addRouterModal')).hide();
-                e.target.reset();
-                showNotification(`تم ربط الراوتر ${name} بنجاح!`, 'success');
-            }
-        }
-
-        // Action: Ping Router
-        function pingRouter(name) {
-            showNotification(`جاري اختبار الاتصال مع ${name}...`, 'info');
-            setTimeout(() => {
-                showNotification(`الاستجابة جيدة (Ping < 15ms) - ${name}`, 'success');
-            }, 1000);
-        }
-
-        // Action: Update Admin Profile
-        function handleProfileUpdate(e) {
-            e.preventDefault();
-            const username = document.getElementById('inputUsername').value.trim();
-            if (username) {
-                document.getElementById('navAdminName').textContent = username;
-                document.getElementById('dropdownUsername').textContent = username;
-                document.getElementById('navAvatarIcon').textContent = username.charAt(0).toUpperCase();
-            }
-            bootstrap.Modal.getInstance(document.getElementById('changeProfileModal')).hide();
-            showNotification('تم تحديث بيانات المدير بنجاح', 'success');
-        }
-
-        // Action: Disconnect Session
-        function disconnectSession(btn) {
-            btn.closest('tr').remove();
-            showNotification('تم قطع اتصال الجلسة بنجاح', 'success');
-        }
-
-        // Action: Delete Row Generic
-        function deleteRow(btn) {
-            if(confirm('هل أنت تأكد من الحذف؟')) {
-                btn.closest('tr').remove();
-                showNotification('تم الحذف بنجاح', 'success');
-            }
-        }
-
-        // Action: Add User Demo
-        function addNewUserPrompt() {
-            const name = prompt('أدخل اسم المستخدم الجديد:');
-            if(name) {
-                const table = document.getElementById('usersTable').getElementsByTagName('tbody')[0];
-                const newRow = table.insertRow();
-                newRow.innerHTML = `
-                    <td class="fw-bold text-white">${name}</td>
-                    <td><span class="badge bg-primary">جديد</span></td>
-                    <td>192.168.88.${Math.floor(Math.random()*100)}</td>
-                    <td>2026-12-31</td>
-                    <td><button class="btn btn-sm btn-outline-danger" onclick="deleteRow(this)"><i class="bi bi-trash"></i></button></td>
-                `;
-                showNotification(`تمت إضافة المستخدم ${name} بنجاح`);
-            }
-        }
-
-        // Live Table Search Filter
         function filterTables() {
             const val = document.getElementById('globalSearchInput').value.toLowerCase();
-            document.querySelectorAll('tbody tr').forEach(row => {
-                const text = row.innerText.toLowerCase();
-                row.style.display = text.includes(val) ? '' : 'none';
+            document.querySelectorAll('#routersTable tbody tr').forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(val) ? '' : 'none';
             });
         }
     </script>
