@@ -44,18 +44,18 @@ class RadiusUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
-    service_type = db.Column(db.String(50), default='Hotspot') # Hotspot / PPPoE
+    service_type = db.Column(db.String(50), default='Hotspot')
     status = db.Column(db.String(20), default='مفعل')
     plan_name = db.Column(db.String(100), default='5M')
     server_name = db.Column(db.String(100), default='ZINAR.net')
     mac_address = db.Column(db.String(50), default='00:00:00:00:00:00')
     ip_address = db.Column(db.String(45), default='0.0.0.0')
-    download_gb = db.Column(db.Float, default=0.0)
-    upload_gb = db.Column(db.Float, default=0.0)
-    uptime = db.Column(db.String(50), default='0s')
+    download_gb = db.Column(db.Float, default=342.98)
+    upload_gb = db.Column(db.Float, default=35.69)
+    uptime = db.Column(db.String(50), default='20d15h50m55s')
     expire_date = db.Column(db.String(100), default='14-10-2026')
     allowed_data = db.Column(db.String(50), default='unlimited')
-    used_data_gb = db.Column(db.Float, default=0.0)
+    used_data_gb = db.Column(db.Float, default=378.68)
 
 class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -84,7 +84,7 @@ class Payment(db.Model):
     amount = db.Column(db.Float, nullable=False)
     date = db.Column(db.String(50), nullable=False)
 
-# بناء قاعدة البيانات الأولية
+# إنشاء وتجهيز البيانات الأولية
 with app.app_context():
     db.create_all()
     if not AdminUser.query.filter_by(username='zenar512').first():
@@ -110,12 +110,12 @@ with app.app_context():
             server_name='ZINAR.net',
             mac_address='00:00:00:00:00:00',
             ip_address='0.0.0.0',
-            download_gb=0.0,
-            upload_gb=0.0,
-            uptime='0s',
+            download_gb=342.98,
+            upload_gb=35.69,
+            uptime='20d15h50m55s',
             expire_date='14-10-2026',
             allowed_data='unlimited',
-            used_data_gb=0.0
+            used_data_gb=378.68
         ))
         db.session.commit()
 
@@ -159,7 +159,6 @@ def get_stats():
         'new_users_today': 1
     })
 
-# --- تحديث بيانات حساب المدير ---
 @app.route('/api/profile/update', methods=['POST'])
 def update_profile():
     data = request.get_json()
@@ -176,14 +175,13 @@ def update_profile():
         
     db.session.commit()
     session['user'] = admin.username
-    return jsonify({'message': 'تم تحديث بيانات حساب المدير بنجاح', 'username': admin.username})
+    return jsonify({'message': 'تم تحديث حساب المدير بنجاح', 'username': admin.username})
 
 @app.route('/api/admin/current', methods=['GET'])
 def get_current_admin():
     admin = AdminUser.query.first()
     return jsonify({'username': admin.username if admin else 'zenar512'})
 
-# --- APIs المشتركين المحسنة مع كل الخانات الجديدة ---
 @app.route('/api/users', methods=['GET', 'POST'])
 def handle_users():
     if request.method == 'POST':
@@ -191,7 +189,7 @@ def handle_users():
         u = RadiusUser(
             username=d['username'],
             password=d.get('password', '123'),
-            service_type=d.get('service_type', 'Hotspot'), # Hotspot أو PPPoE
+            service_type=d.get('service_type', 'Hotspot'),
             status=d.get('status', 'مفعل'),
             plan_name=d.get('plan_name', '10M (10$)'),
             server_name=d.get('server_name', 'ZINAR.net'),
@@ -206,7 +204,7 @@ def handle_users():
         )
         db.session.add(u)
         db.session.commit()
-        return jsonify({'message': 'تم إضافة المشترك بنجاح مع كافة الإعدادات'}), 201
+        return jsonify({'message': 'تم إضافة المشترك بنجاح'}), 201
 
     users = RadiusUser.query.order_by(RadiusUser.id.desc()).all()
     return jsonify([{
@@ -225,7 +223,7 @@ def single_user(id):
     if request.method == 'DELETE':
         db.session.delete(u)
         db.session.commit()
-        return jsonify({'message': 'تم الحذف'})
+        return jsonify({'message': 'تم الحذف بنجاح'})
     return jsonify({
         'id': u.id, 'username': u.username, 'password': u.password,
         'service_type': u.service_type, 'status': u.status,
@@ -251,17 +249,16 @@ def renew_user(id):
         u.download_gb = 0.0; u.upload_gb = 0.0; u.used_data_gb = 0.0; u.uptime = '0s'
         u.expire_date = (datetime.now() + timedelta(days=30)).strftime('%d-%m-%Y')
         db.session.commit()
-        return jsonify({'message': 'تم تجديد الاشتراك 30 يوماً وتصفير العدادات'})
+        return jsonify({'message': 'تم تجديد الاشتراك 30 يوماً'})
     return jsonify({'error': 'خطأ'}), 400
 
-# --- APIs الراوترات والباقات ---
 @app.route('/api/routers', methods=['GET', 'POST'])
 def handle_routers():
     if request.method == 'POST':
         d = request.get_json()
         db.session.add(Router(name=d['name'], ip_address=d['ip_address'], radius_port=int(d.get('radius_port', 1812)), secret=d['secret'], location=d.get('location', 'الفرع الرئيسي')))
         db.session.commit()
-        return jsonify({'message': 'تم إضافته'})
+        return jsonify({'message': 'تم إضافة السيرفر'})
     return jsonify([{'id': r.id, 'name': r.name, 'ip_address': r.ip_address, 'radius_port': r.radius_port, 'location': r.location, 'status': r.status} for r in Router.query.all()])
 
 @app.route('/api/packages', methods=['GET', 'POST'])
@@ -270,17 +267,39 @@ def handle_packages():
         d = request.get_json()
         db.session.add(Package(name=d['name'], price=float(d['price']), download_speed=d['download_speed'], upload_speed=d['upload_speed'], duration_days=int(d.get('duration_days', 30))))
         db.session.commit()
-        return jsonify({'message': 'تم إضافتها'})
+        return jsonify({'message': 'تم إضافة الباقة'})
     return jsonify([{'id': p.id, 'name': p.name, 'price': p.price, 'download_speed': p.download_speed, 'upload_speed': p.upload_speed, 'duration_days': p.duration_days} for p in Package.query.all()])
 
-@app.route('/api/customers', methods=['GET'])
-def handle_customers(): return jsonify([{'id': c.id, 'name': c.name, 'phone': c.phone, 'status': c.status} for c in Customer.query.all()])
-@app.route('/api/vouchers', methods=['GET'])
-def handle_vouchers(): return jsonify([{'id': v.id, 'code': v.code, 'package_name': v.package_name, 'price': v.price, 'status': v.status} for v in Voucher.query.all()])
+@app.route('/api/customers', methods=['GET', 'POST'])
+def handle_customers():
+    if request.method == 'POST':
+        d = request.get_json()
+        db.session.add(Customer(name=d['name'], phone=d['phone']))
+        db.session.commit()
+        return jsonify({'message': 'تم حفظ العميل'})
+    return jsonify([{'id': c.id, 'name': c.name, 'phone': c.phone, 'status': c.status} for c in Customer.query.all()])
+
+@app.route('/api/vouchers', methods=['GET', 'POST'])
+def handle_vouchers():
+    if request.method == 'POST':
+        d = request.get_json()
+        db.session.add(Voucher(code=d['code'], package_name=d['package_name'], price=float(d['price'])))
+        db.session.commit()
+        return jsonify({'message': 'تم حفظ الكارت'})
+    return jsonify([{'id': v.id, 'code': v.code, 'package_name': v.package_name, 'price': v.price, 'status': v.status} for v in Voucher.query.all()])
+
 @app.route('/api/sessions', methods=['GET'])
-def get_sessions(): return jsonify([{'id': s.id, 'username': s.username, 'router_name': s.router_name, 'ip_address': s.ip_address, 'mac_address': s.mac_address, 'uptime': s.uptime} for s in ActiveSession.query.all()])
-@app.route('/api/payments', methods=['GET'])
-def handle_payments(): return jsonify([{'id': p.id, 'customer_name': p.customer_name, 'amount': p.amount, 'date': p.date} for p in Payment.query.all()])
+def get_sessions():
+    return jsonify([{'id': s.id, 'username': s.username, 'router_name': s.router_name, 'ip_address': s.ip_address, 'mac_address': s.mac_address, 'uptime': s.uptime} for s in ActiveSession.query.all()])
+
+@app.route('/api/payments', methods=['GET', 'POST'])
+def handle_payments():
+    if request.method == 'POST':
+        d = request.get_json()
+        db.session.add(Payment(customer_name=d['customer_name'], amount=float(d['amount']), date=d.get('date', datetime.now().strftime('%Y-%m-%d'))))
+        db.session.commit()
+        return jsonify({'message': 'تم حفظ الدفعة'})
+    return jsonify([{'id': p.id, 'customer_name': p.customer_name, 'amount': p.amount, 'date': p.date} for p in Payment.query.all()])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
