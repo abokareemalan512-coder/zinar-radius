@@ -178,17 +178,15 @@ def update_profile():
     data = request.get_json()
     new_username = data.get('username', '').strip()
     new_password = data.get('password', '').strip()
-
+    
     admin = AdminUser.query.first()
     if not admin:
         admin = AdminUser(username='zenar512', password='adminpassword123')
         db.session.add(admin)
-
-    if new_username:
-        admin.username = new_username
-    if new_password:
-        admin.password = new_password
-
+    
+    if new_username: admin.username = new_username
+    if new_password: admin.password = new_password
+        
     db.session.commit()
     session['user'] = admin.username
     return jsonify({'message': 'تم تحديث حساب المدير بنجاح', 'username': admin.username})
@@ -236,7 +234,7 @@ def handle_users():
 def mikrotik_script():
     try:
         users = RadiusUser.query.filter_by(status='مفعل').all()
-        lines = ['/ip hotspot user remove [find comment="zinar-sync"];\n']
+        lines = ["/ip hotspot user remove [find comment=\"zinar-sync\"];\n"]
         for u in users:
             lines.append(f'/ip hotspot user add name="{u.username}" password="{u.password}" profile="default" comment="zinar-sync";\n')
         script = "".join(lines)
@@ -247,8 +245,7 @@ def mikrotik_script():
 @app.route('/api/users/<int:id>', methods=['GET', 'DELETE'])
 def single_user(id):
     u = RadiusUser.query.get(id)
-    if not u:
-        return jsonify({'error': 'غير موجود'}), 404
+    if not u: return jsonify({'error': 'غير موجود'}), 404
     if request.method == 'DELETE':
         db.session.delete(u)
         db.session.commit()
@@ -266,10 +263,7 @@ def single_user(id):
 def reset_user_counters(id):
     u = RadiusUser.query.get(id)
     if u:
-        u.download_gb = 0.0
-        u.upload_gb = 0.0
-        u.used_data_gb = 0.0
-        u.uptime = '0s'
+        u.download_gb = 0.0; u.upload_gb = 0.0; u.used_data_gb = 0.0; u.uptime = '0s'
         db.session.commit()
         return jsonify({'message': 'تم تصفير العدادات بنجاح'})
     return jsonify({'error': 'خطأ'}), 400
@@ -278,10 +272,7 @@ def reset_user_counters(id):
 def renew_user(id):
     u = RadiusUser.query.get(id)
     if u:
-        u.download_gb = 0.0
-        u.upload_gb = 0.0
-        u.used_data_gb = 0.0
-        u.uptime = '0s'
+        u.download_gb = 0.0; u.upload_gb = 0.0; u.used_data_gb = 0.0; u.uptime = '0s'
         u.expire_date = (datetime.now() + timedelta(days=30)).strftime('%d-%m-%Y')
         db.session.commit()
         return jsonify({'message': 'تم تجديد الاشتراك 30 يوماً'})
@@ -304,7 +295,7 @@ def handle_routers():
         db.session.add(new_r)
         db.session.commit()
         return jsonify({'message': 'تم إضافة السيرفر بنجاح'}), 201
-
+    
     routers = Router.query.all()
     res = []
     for r in routers:
